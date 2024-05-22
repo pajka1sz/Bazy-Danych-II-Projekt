@@ -1,0 +1,70 @@
+[{
+  "_id": {
+    "$oid": "6616888e2213e76670b2a791"
+  },
+  "firstname": "Janusz",
+  "lastname": "Mazurczak",
+  "nationality": "Poland",
+  "club": "CWKS Resovia Rzeszow",
+  "coaching": [
+    "sprints",
+    "hurdles"
+  ]
+},
+{
+  "_id": {
+    "$oid": "6616888e2213e76670b2a792"
+  },
+  "firstname": "Piotr",
+  "lastname": "Kowalski",
+  "nationality": "Poland",
+  "club": "CWKS Resovia Rzeszow",
+  "coaching": [
+    "middledistances",
+    "longdistances",
+    "steeplechase"
+  ]
+},
+{
+  "_id": {
+    "$oid": "6616888e2213e76670b2a793"
+  },
+  "firstname": "Miroslaw",
+  "lastname": "Baran",
+  "nationality": "Poland",
+  "club": "KKL Stal Stalowa Wola",
+  "coaching": [
+    "sprints",
+    "middledistances",
+    "longdistances"
+  ]
+},
+{
+  "_id": {
+    "$oid": "6616888e2213e76670b2a794"
+  },
+  "firstname": "Maria",
+  "lastname": "Sugar",
+  "nationality": "Poland",
+  "club": "UKS Tempo 5 Przemysl",
+  "coaching": [
+    "sprints",
+    "middledistances",
+    "hurdles",
+    "steeplechase"
+  ]
+},
+{
+  "_id": {
+    "$oid": "66168f41f5eb4896aa16c9b5"
+  },
+  "firstname": "Bogdan",
+  "lastname": "Dudczak",
+  "club": "CWKS Resovia Rzeszow",
+  "coaching": [
+    "middledistance",
+    "longdistance",
+    "racewalking"
+  ],
+  "nationality": "Poland"
+}]

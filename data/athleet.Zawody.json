@@ -1,0 +1,35 @@
+[{
+  "_id": {
+    "$oid": "66169321f5eb4896aa16c9b6"
+  },
+  "name": "70. ORLEN Memorial Janusza Kusocinskiego",
+  "city": "Chorzow",
+  "date": "18-05-2024",
+  "competitions": [
+    "100m F",
+    "100m M",
+    "200m F",
+    "200m M",
+    "800m F",
+    "800m M",
+    "1500m F",
+    "1500m M",
+    "100mh F",
+    "110mh M",
+    "400mh F",
+    "3000msc F",
+    "3000msc M"
+  ]
+},
+{
+  "_id": {
+    "$oid": "66169321f5eb4896aa16c9b7"
+  },
+  "name": "PZLA Mistrzostwa Polski U20 i U23 w biegu na 5000 metrow 2024",
+  "date": "01-06-2024",
+  "competitions": [
+    "5000m F",
+    "5000m M"
+  ],
+  "city": "Ciechanow"
+}]
