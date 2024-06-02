@@ -44,7 +44,7 @@
     "$oid": "6616888e2213e76670b2a794"
   },
   "firstname": "Maria",
-  "lastname": "Sugar",
+  "lastname": "Cukier",
   "nationality": "Poland",
   "club": "UKS Tempo 5 Przemysl",
   "coaching": [
@@ -67,4 +67,31 @@
     "racewalking"
   ],
   "nationality": "Poland"
+},
+{
+  "_id": {
+    "$oid": "665a068a46fdea9886199dce"
+  },
+  "firstname": "Bob",
+  "lastname": "Beamon",
+  "nationality": "United States",
+  "club": "International Coaching",
+  "coaching": [
+    "sprints",
+    "hurdles",
+    "jumps"
+  ]
+},
+{
+  "_id": {
+    "$oid": "665a07b746fdea9886199dd8"
+  },
+  "firstname": "Stanislaw",
+  "lastname": "Wazki",
+  "nationality": "Poland",
+  "club": "KML Lubaczow",
+  "coaching": [
+    "middledistances",
+    "longdistances"
+  ]
 }]

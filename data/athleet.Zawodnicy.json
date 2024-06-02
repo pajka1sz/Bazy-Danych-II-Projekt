@@ -4,7 +4,9 @@
   },
   "firstname": "Usain",
   "lastname": "Bolt",
-  "birth_date": "21-08-1986",
+  "birth_date": {
+    "$date": "1986-08-21T00:00:00.000Z"
+  },
   "gender": "male",
   "nationality": "Jamaica",
   "category": "Senior",
@@ -20,7 +22,8 @@
     "400m": 45.28,
     "4x100m": 36.84
   },
-  "personal_records_short_track": {}
+  "personal_records_short_track": {},
+  "coach": "665a068a46fdea9886199dce"
 },
 {
   "_id": {
@@ -28,7 +31,9 @@
   },
   "firstname": "Ferdinand",
   "lastname": "Omanyala",
-  "birth_date": "02-01-1996",
+  "birth_date": {
+    "$date": "1996-01-02T00:00:00.000Z"
+  },
   "gender": "male",
   "nationality": "Kenya",
   "category": "Senior",
@@ -45,7 +50,8 @@
     "200m": 20.33,
     "400m": 49.06,
     "4x100m": 38.82
-  }
+  },
+  "coach": "665a068a46fdea9886199dce"
 },
 {
   "_id": {
@@ -53,7 +59,9 @@
   },
   "firstname": "Christian",
   "lastname": "Coleman",
-  "birth_date": "06-03-1996",
+  "birth_date": {
+    "$date": "1996-06-02T22:00:00.000Z"
+  },
   "gender": "male",
   "nationality": "United States",
   "category": "Senior",
@@ -72,7 +80,8 @@
     "60m": 6.34,
     "200m": 20.11,
     "300m": 33.26
-  }
+  },
+  "coach": "665a068a46fdea9886199dce"
 },
 {
   "_id": {
@@ -80,7 +89,9 @@
   },
   "firstname": "Noah",
   "lastname": "Lyles",
-  "birth_date": "18-07-1997",
+  "birth_date": {
+    "$date": "1997-07-18T00:00:00.000Z"
+  },
   "gender": "male",
   "nationality": "United States",
   "category": "Senior",
@@ -101,7 +112,8 @@
     "200m": 19.31,
     "400m": 47.04,
     "4x100m": 37.1
-  }
+  },
+  "coach": "665a068a46fdea9886199dce"
 },
 {
   "_id": {
@@ -109,7 +121,9 @@
   },
   "firstname": "Rafal",
   "lastname": "Rembacz",
-  "birth_date": "26-10-2003",
+  "birth_date": {
+    "$date": "2003-10-23T00:00:00.000Z"
+  },
   "gender": "male",
   "nationality": "Poland",
   "club": "CWKS Resovia Rzeszow",
@@ -128,7 +142,7 @@
     "60m": 6.83,
     "200m": 21.96
   },
-  "coach": "Janusz Mazurczak"
+  "coach": "6616888e2213e76670b2a791"
 },
 {
   "_id": {
@@ -136,7 +150,9 @@
   },
   "firstname": "Artem",
   "lastname": "Jakubski",
-  "birth_date": "07-06-2004",
+  "birth_date": {
+    "$date": "2004-06-07T00:00:00.000Z"
+  },
   "gender": "male",
   "nationality": "Poland",
   "club": "CWKS Resovia Rzeszow",
@@ -158,7 +174,7 @@
     "300m": 37.23,
     "400m": 52.74
   },
-  "coach": "Janusz Mazurczak"
+  "coach": "6616888e2213e76670b2a791"
 },
 {
   "_id": {
@@ -166,7 +182,9 @@
   },
   "firstname": "Jakub",
   "lastname": "Nowakowski",
-  "birth_date": "02-12-2004",
+  "birth_date": {
+    "$date": "2004-02-12T00:00:00.000Z"
+  },
   "gender": "male",
   "nationality": "Poland",
   "club": "CWKS Resovia Rzeszow",
@@ -184,7 +202,7 @@
     "60m": 6.98,
     "200m": 22.62
   },
-  "coach": "Janusz Mazurczak"
+  "coach": "6616888e2213e76670b2a791"
 },
 {
   "_id": {
@@ -192,7 +210,9 @@
   },
   "firstname": "Tomasz",
   "lastname": "Paja",
-  "birth_date": "06-10-2004",
+  "birth_date": {
+    "$date": "2004-06-10T00:00:00.000Z"
+  },
   "gender": "male",
   "nationality": "Poland",
   "club": "CWKS Resovia Rzeszow",
@@ -213,7 +233,7 @@
     "1000m": 152.17,
     "1500m": 239.91
   },
-  "coach": "Piotr Kowalski"
+  "coach": "6616888e2213e76670b2a792"
 },
 {
   "_id": {
@@ -221,7 +241,9 @@
   },
   "firstname": "Szymon",
   "lastname": "Paja",
-  "birth_date": "06-10-2004",
+  "birth_date": {
+    "$date": "2004-06-10T00:00:00.000Z"
+  },
   "gender": "male",
   "nationality": "Poland",
   "club": "CWKS Resovia Rzeszow",
@@ -242,7 +264,7 @@
     "1000m": 156.13,
     "1500m": 246.69
   },
-  "coach": "Piotr Kowalski"
+  "coach": "6616888e2213e76670b2a792"
 },
 {
   "_id": {
@@ -250,7 +272,9 @@
   },
   "firstname": "Bartosz",
   "lastname": "Trojan",
-  "birth_date": "07-06-2004",
+  "birth_date": {
+    "$date": "2004-06-07T00:00:00.000Z"
+  },
   "gender": "male",
   "nationality": "Poland",
   "club": "CWKS Resovia Rzeszow",
@@ -272,7 +296,7 @@
     "1000m": 157.07,
     "1500m": 242.98
   },
-  "coach": "Piotr Kowalski"
+  "coach": "6616888e2213e76670b2a792"
 },
 {
   "_id": {
@@ -280,7 +304,9 @@
   },
   "firstname": "Bartlomiej",
   "lastname": "Watrobka",
-  "birth_date": "17-05-2004",
+  "birth_date": {
+    "$date": "2004-05-17T00:00:00.000Z"
+  },
   "gender": "male",
   "nationality": "Poland",
   "club": "CWKS Resovia Rzeszow",
@@ -300,7 +326,7 @@
     "1000m": 155.96,
     "1500m": 239.65
   },
-  "coach": "Piotr Kowalski"
+  "coach": "6616888e2213e76670b2a792"
 },
 {
   "_id": {
@@ -308,7 +334,9 @@
   },
   "firstname": "Jakub",
   "lastname": "Chudy",
-  "birth_date": "24-07-2004",
+  "birth_date": {
+    "$date": "2004-07-24T00:00:00.000Z"
+  },
   "gender": "male",
   "nationality": "Poland",
   "club": "CWKS Resovia Rzeszow",
@@ -329,7 +357,7 @@
     "600m": 81.64,
     "800m": 113.92
   },
-  "coach": "Piotr Kowalski"
+  "coach": "6616888e2213e76670b2a792"
 },
 {
   "_id": {
@@ -337,11 +365,13 @@
   },
   "firstname": "Jacek",
   "lastname": "Skrzecz",
-  "birth_date": "11-09-2004",
+  "birth_date": {
+    "$date": "2004-09-11T00:00:00.000Z"
+  },
   "gender": "male",
   "nationality": "Poland",
   "club": "KKL Stal Stalowa Wola",
-  "coach": "Miroslaw Baran",
+  "coach": "6616888e2213e76670b2a793",
   "category": "Youth",
   "specialities": [
     "800m",
@@ -366,11 +396,13 @@
   },
   "firstname": "Marek",
   "lastname": "Gryka",
-  "birth_date": "25-01-2006",
+  "birth_date": {
+    "$date": "2006-01-25T00:00:00.000Z"
+  },
   "gender": "male",
   "nationality": "Poland",
   "club": "KKL Stal Stalowa Wola",
-  "coach": "Miroslaw Baran",
+  "coach": "6616888e2213e76670b2a793",
   "category": "Junior",
   "specialities": [
     "400m",
@@ -396,11 +428,13 @@
   },
   "firstname": "Rafal",
   "lastname": "Klin",
-  "birth_date": "21-01-2006",
+  "birth_date": {
+    "$date": "2006-01-21T00:00:00.000Z"
+  },
   "gender": "male",
   "nationality": "Poland",
   "club": "UKS Tempo 5 Przemysl",
-  "coach": "Maria Cukier",
+  "coach": "6616888e2213e76670b2a794",
   "category": "Junior",
   "specialities": [
     "800m",
@@ -424,11 +458,13 @@
   },
   "firstname": "Michal",
   "lastname": "Bosy",
-  "birth_date": "26-01-2007",
+  "birth_date": {
+    "$date": "2007-01-26T00:00:00.000Z"
+  },
   "gender": "male",
   "nationality": "Poland",
   "club": "KML Lubaczow",
-  "coach": "Stanislaw Wazki",
+  "coach": "665a07b746fdea9886199dd8",
   "category": "Younger junior",
   "specialities": [
     "1500m",
