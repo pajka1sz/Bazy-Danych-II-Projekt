@@ -4,10 +4,12 @@ import org.example.Main;
 import org.example.model.*;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 public class CrudUpdate {
     private final EntityManager entityManager = Main.entityManager;
 
+    @Transactional
     public void addAthleteToCoach(Athlete athlete, Coach coach) {
         /**
          * @param athlete
@@ -17,6 +19,7 @@ public class CrudUpdate {
         coach.addAthlete(athlete);
     }
 
+    @Transactional
     public void changeReportStatus(Report report, String newStatus) {
         /**
          * @param report
@@ -34,6 +37,7 @@ public class CrudUpdate {
         report.setStatus(newStatus);
     }
 
+    @Transactional
     public void addCompetitionToMeeting(Meeting meeting, Competition competition) {
         /**
          * @param meeting

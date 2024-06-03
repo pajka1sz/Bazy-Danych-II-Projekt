@@ -6,9 +6,7 @@ import org.bson.types.ObjectId;
 
 import javax.persistence.*;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Entity
 @Table(name = "Zawodnicy")
@@ -24,7 +22,7 @@ public class Athlete {
     private String lastname;
     @Getter
     @Setter
-    private Date birth_date;
+    private Date birthDate;
     @Getter
     @Setter
     private String gender;
@@ -65,23 +63,23 @@ public class Athlete {
 
     }
 
-    public Athlete(ObjectId id, String firstname, String lastname, Date birth_date, String gender, String nationality, String category, String club, List<String> specialities, Map<String, Double> personalRecordsOutdoor, Map<String, Double> personalRecordsShortTrack, Coach coach) {
-        this.id = id;
+    public Athlete(String firstname, String lastname, Date birthDate, String gender, String nationality, String club, List<String> specialities, Map<String, Double> personalRecordsOutdoor, Map<String, Double> personalRecordsShortTrack, Coach coach) {
+        this.id = new ObjectId();
         this.firstname = firstname;
         this.lastname = lastname;
-        this.birth_date = birth_date;
+        this.birthDate = birthDate;
         this.gender = gender;
         this.nationality = nationality;
-        this.category = category;
+        this.category = convertBirthDateToCategory(birthDate);
         this.club = club;
-        this.specialities = specialities;
-        this.personalRecordsOutdoor = personalRecordsOutdoor;
-        this.personalRecordsShortTrack = personalRecordsShortTrack;
+        this.specialities = specialities == null ? new ArrayList<>() : specialities;
+        this.personalRecordsOutdoor = personalRecordsOutdoor == null ? new HashMap<>() : personalRecordsOutdoor;
+        this.personalRecordsShortTrack = personalRecordsShortTrack == null ? new HashMap<>() : personalRecordsShortTrack;
         this.coach = coach;
     }
 
-    public Athlete(ObjectId id, String firstname, String lastname, String gender, String nationality, Coach coach) {
-        this.id = id;
+    public Athlete(String firstname, String lastname, String gender, String nationality, Coach coach) {
+        this.id = new ObjectId();
         this.firstname = firstname;
         this.lastname = lastname;
         this.gender = gender;
@@ -99,13 +97,31 @@ public class Athlete {
         return result;
     }
 
+    private String convertBirthDateToCategory(Date birthDate) {
+        /**
+         * @param birthDate
+         * Function assign category to athlete depending on its birthdate.
+         */
+        Date currentDate = new Date();
+        int differenceInYears = birthDate.getYear() - currentDate.getYear();
+        if (differenceInYears < 16)
+            return "Youngster";
+        if (differenceInYears < 18)
+            return "Younger junior";
+        if (differenceInYears < 20)
+            return "Junior";
+        if (differenceInYears < 23)
+            return "Youth";
+        return "Senior";
+    }
+
     @Override
     public String toString() {
         return "Athlete{" +
                 "id=" + id +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
-                ", birth_date=" + birth_date +
+                ", birth_date=" + birthDate +
                 ", gender='" + gender + '\'' +
                 ", nationality='" + nationality + '\'' +
                 ", category='" + category + '\'' +

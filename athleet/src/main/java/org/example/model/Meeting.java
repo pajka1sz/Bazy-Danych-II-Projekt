@@ -7,7 +7,8 @@ import org.bson.types.ObjectId;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -33,15 +34,19 @@ public class Meeting {
 
     }
 
-    public Meeting(ObjectId id, String name, String city, Date date, List<Competition> competitions) {
-        this.id = id;
+    public Meeting(String name, String city, Date date, List<Competition> competitions) {
+        this.id = new ObjectId();
         this.name = name;
         this.city = city;
         this.date = date;
-        this.competitions = competitions;
+        this.competitions = competitions == null ? new ArrayList<>() : competitions;
     }
 
     public void addCompetition(Competition competition) {
         this.competitions.add(competition);
+    }
+
+    public void removeCompetition(Competition competition) {
+        this.competitions.remove(competition);
     }
 }

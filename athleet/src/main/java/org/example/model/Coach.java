@@ -40,13 +40,14 @@ public class Coach {
 
     }
 
-    public Coach(ObjectId id, String firstname, String lastname, String nationality, String club, List<String> coaching) {
-        this.id = id;
+    public Coach(String firstname, String lastname, String nationality, String club, List<String> coaching, List<Athlete> athletes) {
+        this.id = new ObjectId();
         this.firstname = firstname;
         this.lastname = lastname;
         this.nationality = nationality;
         this.club = club;
-        this.coaching = coaching;
+        this.coaching = coaching == null ? new ArrayList<>() : coaching;
+        this.athletes = athletes == null ? new ArrayList<>() : athletes;
     }
 
     public void addAthlete(Athlete athlete) {

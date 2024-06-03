@@ -6,7 +6,7 @@ import org.bson.types.ObjectId;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 public class Report {
@@ -15,10 +15,13 @@ public class Report {
     private ObjectId id;
     @Getter
     @Setter
-    private ObjectId meetingId;
+    private Meeting meeting;
     @Getter
     @Setter
-    private ObjectId athleteId;
+    private Athlete athlete;
+    @Getter
+    @Setter
+    private Coach coach;
     @Getter
     @Setter
     private String discipline;
@@ -33,10 +36,11 @@ public class Report {
 
     }
 
-    public Report(ObjectId id, ObjectId meetingId, ObjectId athleteId, String discipline, String status, Date date) {
-        this.id = id;
-        this.meetingId = meetingId;
-        this.athleteId = athleteId;
+    public Report(Meeting meeting, Athlete athlete, Coach coach, String discipline, String status, Date date) {
+        this.id = new ObjectId();
+        this.meeting = meeting;
+        this.athlete = athlete;
+        this.coach = coach;
         this.discipline = discipline;
         this.status = status;
         this.date = date;

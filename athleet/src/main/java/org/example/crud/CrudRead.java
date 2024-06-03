@@ -1,12 +1,11 @@
 package org.example.crud;
 
 import org.example.Main;
-import org.example.model.Athlete;
-import org.example.model.Coach;
-import org.example.model.Meeting;
-import org.example.model.Report;
+import org.example.model.*;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CrudRead {
@@ -43,7 +42,15 @@ public class CrudRead {
         return entityManager.createQuery(query, Report.class).getResultList();
     }
 
-    public List<Athlete> getAthletesFromClub(String club) {
+    public List<Competition> getAllMeetingCompetitions(@NotNull Meeting meeting) {
+        /**
+         * @param meeting
+         * Returns list of all competitions in the meeting.
+         */
+        return meeting.getCompetitions();
+    }
+
+    public List<Athlete> getAthletesFromClub(@NotNull String club) {
         /**
          * @param club
          * Returns list of all athletes belonging to specified club.
@@ -53,13 +60,43 @@ public class CrudRead {
         return results;
     }
 
-    public List<Athlete> getCoachesAthletes(Coach coach) {
+    public List<Athlete> getCoachesAthletes(@NotNull Coach coach) {
         /**
          * @param coach
          * Returns list of all athletes who train with specified coach.
          */
         List<Athlete> athletes = getAllAthletes();
         List<Athlete> results = athletes.stream().filter(a -> a.getCoach() != null && a.getCoach().equals(coach)).toList();
+        return results;
+    }
+
+    public List<Report> getReportsOfAllAthletesParticipatingInMeeting(@NotNull Meeting meeting) {
+        /**
+         * @param meeting
+         * Returns all reports of athletes participating in the meeting.
+         */
+        List<Report> allReports = getAllReports();
+        List<Report> results = new ArrayList<>();
+        for (Report report: allReports) {
+            if (report.getMeeting().equals(meeting))
+                results.add(report);
+        }
+        return results;
+    }
+
+    public List<Report> getReportsOfAllAthletesParticipatingInMeetingInDiscipline(@NotNull Meeting meeting,
+                                                                                  @NotNull Competition competition) {
+        /**
+         * @param meeting
+         * @param competition
+         * Returns all reports of athletes participating in the meeting in provided competition.
+         */
+        List<Report> allReportsFromThisMeeting = getReportsOfAllAthletesParticipatingInMeeting(meeting);
+        List<Report> results = new ArrayList<>();
+        for (Report report: allReportsFromThisMeeting) {
+            if (report.getDiscipline().equals(competition.getDiscipline()))
+                results.add(report);
+        }
         return results;
     }
 }
