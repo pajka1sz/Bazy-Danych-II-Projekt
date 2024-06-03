@@ -2,143 +2,191 @@
   "_id": {
     "$oid": "664e076ff269ff6bf5225ec0"
   },
-  "meetingId": "66169321f5eb4896aa16c9b6",
+  "meetingId": {
+    "$oid": "66169321f5eb4896aa16c9b6"
+  },
   "discipline": "100m M",
   "status": "confirmed",
   "date": {
     "$date": "2024-05-31T00:00:00.000Z"
   },
-  "athleteId": "66165e1a2213e76670b2a778"
+  "athleteId": {
+    "$oid": "66165e1a2213e76670b2a778"
+  }
 },
 {
   "_id": {
     "$oid": "664e0967d9eefd9f5416c9b5"
   },
-  "meetingId": "66169321f5eb4896aa16c9b6",
+  "meetingId": {
+    "$oid": "66169321f5eb4896aa16c9b6"
+  },
   "discipline": "100m M",
   "status": "confirmed",
   "date": {
     "$date": "2024-05-31T00:00:00.000Z"
   },
-  "athleteId": "6616713e2213e76670b2a77d"
+  "athleteId": {
+    "$oid": "6616713e2213e76670b2a77d"
+  }
 },
 {
   "_id": {
     "$oid": "664e0967d9eefd9f5416c9b6"
   },
-  "meetingId": "66169321f5eb4896aa16c9b6",
+  "meetingId": {
+    "$oid": "66169321f5eb4896aa16c9b6"
+  },
   "discipline": "100m M",
   "status": "reported",
   "date": {
     "$date": "2024-05-31T00:00:00.000Z"
   },
-  "athleteId": "6616713e2213e76670b2a77e"
+  "athleteId": {
+    "$oid": "6616713e2213e76670b2a77e"
+  }
 },
 {
   "_id": {
     "$oid": "664e0967d9eefd9f5416c9b7"
   },
-  "meetingId": "66169321f5eb4896aa16c9b6",
+  "meetingId": {
+    "$oid": "66169321f5eb4896aa16c9b6"
+  },
   "discipline": "100m M",
   "status": "confirmed",
   "date": {
     "$date": "2024-05-31T00:00:00.000Z"
   },
-  "athleteId": "661680852213e76670b2a781"
+  "athleteId": {
+    "$oid": "661680852213e76670b2a781"
+  }
 },
 {
   "_id": {
     "$oid": "664e0967d9eefd9f5416c9b8"
   },
-  "meetingId": "66169321f5eb4896aa16c9b6",
+  "meetingId": {
+    "$oid": "66169321f5eb4896aa16c9b6"
+  },
   "discipline": "1500m M",
   "status": "confirmed",
   "date": {
     "$date": "2024-05-31T00:00:00.000Z"
   },
-  "athleteId": "661680852213e76670b2a784"
+  "athleteId": {
+    "$oid": "661680852213e76670b2a784"
+  }
 },
 {
   "_id": {
     "$oid": "664e0a88d9eefd9f5416c9b9"
   },
-  "meetingId": "66169321f5eb4896aa16c9b7",
+  "meetingId": {
+    "$oid": "66169321f5eb4896aa16c9b7"
+  },
   "discipline": "5000m M",
   "status": "confirmed",
   "date": {
     "$date": "2024-05-31T00:00:00.000Z"
   },
-  "athleteId": "661680852213e76670b2a784"
+  "athleteId": {
+    "$oid": "661680852213e76670b2a784"
+  }
 },
 {
   "_id": {
     "$oid": "664e0a88d9eefd9f5416c9ba"
   },
-  "meetingId": "66169321f5eb4896aa16c9b7",
+  "meetingId": {
+    "$oid": "66169321f5eb4896aa16c9b7"
+  },
   "discipline": "5000m M",
   "status": "confirmed",
   "date": {
     "$date": "2024-05-31T00:00:00.000Z"
   },
-  "athleteId": "661680852213e76670b2a785"
+  "athleteId": {
+    "$oid": "661680852213e76670b2a785"
+  }
 },
 {
   "_id": {
     "$oid": "664e0a88d9eefd9f5416c9bb"
   },
-  "meetingId": "66169321f5eb4896aa16c9b7",
+  "meetingId": {
+    "$oid": "66169321f5eb4896aa16c9b7"
+  },
   "discipline": "5000m M",
   "status": "reported",
   "date": {
     "$date": "2024-05-31T00:00:00.000Z"
   },
-  "athleteId": "661680852213e76670b2a786"
+  "athleteId": {
+    "$oid": "661680852213e76670b2a786"
+  }
 },
 {
   "_id": {
     "$oid": "664e0a88d9eefd9f5416c9bc"
   },
-  "meetingId": "66169321f5eb4896aa16c9b7",
+  "meetingId": {
+    "$oid": "66169321f5eb4896aa16c9b7"
+  },
   "discipline": "5000m M",
   "status": "cancelled",
   "date": {
     "$date": "2024-05-31T00:00:00.000Z"
   },
-  "athleteId": "661680852213e76670b2a787"
+  "athleteId": {
+    "$oid": "661680852213e76670b2a787"
+  }
 },
 {
   "_id": {
     "$oid": "665a2b3361c73a117f8f4c11"
   },
-  "meetingId": "66169321f5eb4896aa16c9b6",
+  "meetingId": {
+    "$oid": "66169321f5eb4896aa16c9b6"
+  },
   "discipline": "200m M",
   "status": "reported",
   "date": {
     "$date": "2024-05-31T00:00:00.000Z"
   },
-  "athleteId": "66165e1a2213e76670b2a778"
+  "athleteId": {
+    "$oid": "66165e1a2213e76670b2a778"
+  }
 },
 {
   "_id": {
     "$oid": "665a2b6b61c73a117f8f4c13"
   },
-  "meetingId": "66169321f5eb4896aa16c9b6",
+  "meetingId": {
+    "$oid": "66169321f5eb4896aa16c9b6"
+  },
   "discipline": "200m M",
   "status": "confirmed",
   "date": {
     "$date": "2024-05-31T00:00:00.000Z"
   },
-  "athleteId": "6616713e2213e76670b2a77d"
+  "athleteId": {
+    "$oid": "6616713e2213e76670b2a77d"
+  }
 },
 {
   "_id": {
     "$oid": "665a2ba461c73a117f8f4c15"
   },
-  "meetingId": "66169321f5eb4896aa16c9b6",
+  "meetingId": {
+    "$oid": "66169321f5eb4896aa16c9b6"
+  },
   "discipline": "4x100m M",
   "status": "confirmed",
   "date": {
     "$date": "2024-05-31T00:00:00.000Z"
   },
-  "athleteId": "6616713e2213e76670b2a77e"
+  "athleteId": {
+    "$oid": "6616713e2213e76670b2a77e"
+  }
 }]

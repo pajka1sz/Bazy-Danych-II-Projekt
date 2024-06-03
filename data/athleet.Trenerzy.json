@@ -94,4 +94,21 @@
     "middledistances",
     "longdistances"
   ]
+},
+{
+  "_id": {
+    "$oid": "665e04eb65b83e2d0060e29d"
+  },
+  "firstname": "Szymon",
+  "nationality": "Poland",
+  "club": "CWKS Resovia Rzeszow",
+  "lastname": "Grabowski",
+  "athletes": [
+    {
+      "$oid": "665e003665b83e2208a96dca"
+    }
+  ],
+  "coaching": [
+    "football"
+  ]
 }]

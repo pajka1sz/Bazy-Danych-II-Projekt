@@ -23,7 +23,9 @@
     "4x100m": 36.84
   },
   "personal_records_short_track": {},
-  "coach": "665a068a46fdea9886199dce"
+  "coach_id": {
+    "$oid": "665a068a46fdea9886199dce"
+  }
 },
 {
   "_id": {
@@ -51,7 +53,9 @@
     "400m": 49.06,
     "4x100m": 38.82
   },
-  "coach": "665a068a46fdea9886199dce"
+  "coach_id": {
+    "$oid": "665a068a46fdea9886199dce"
+  }
 },
 {
   "_id": {
@@ -81,7 +85,9 @@
     "200m": 20.11,
     "300m": 33.26
   },
-  "coach": "665a068a46fdea9886199dce"
+  "coach_id": {
+    "$oid": "665a068a46fdea9886199dce"
+  }
 },
 {
   "_id": {
@@ -113,7 +119,9 @@
     "400m": 47.04,
     "4x100m": 37.1
   },
-  "coach": "665a068a46fdea9886199dce"
+  "coach_id": {
+    "$oid": "665a068a46fdea9886199dce"
+  }
 },
 {
   "_id": {
@@ -142,7 +150,9 @@
     "60m": 6.83,
     "200m": 21.96
   },
-  "coach": "6616888e2213e76670b2a791"
+  "coach_id": {
+    "$oid": "6616888e2213e76670b2a791"
+  }
 },
 {
   "_id": {
@@ -174,7 +184,9 @@
     "300m": 37.23,
     "400m": 52.74
   },
-  "coach": "6616888e2213e76670b2a791"
+  "coach_id": {
+    "$oid": "6616888e2213e76670b2a791"
+  }
 },
 {
   "_id": {
@@ -202,7 +214,9 @@
     "60m": 6.98,
     "200m": 22.62
   },
-  "coach": "6616888e2213e76670b2a791"
+  "coach_id": {
+    "$oid": "6616888e2213e76670b2a791"
+  }
 },
 {
   "_id": {
@@ -233,7 +247,9 @@
     "1000m": 152.17,
     "1500m": 239.91
   },
-  "coach": "6616888e2213e76670b2a792"
+  "coach_id": {
+    "$oid": "6616888e2213e76670b2a792"
+  }
 },
 {
   "_id": {
@@ -264,7 +280,9 @@
     "1000m": 156.13,
     "1500m": 246.69
   },
-  "coach": "6616888e2213e76670b2a792"
+  "coach_id": {
+    "$oid": "6616888e2213e76670b2a792"
+  }
 },
 {
   "_id": {
@@ -296,7 +314,9 @@
     "1000m": 157.07,
     "1500m": 242.98
   },
-  "coach": "6616888e2213e76670b2a792"
+  "coach_id": {
+    "$oid": "6616888e2213e76670b2a792"
+  }
 },
 {
   "_id": {
@@ -326,7 +346,9 @@
     "1000m": 155.96,
     "1500m": 239.65
   },
-  "coach": "6616888e2213e76670b2a792"
+  "coach_id": {
+    "$oid": "6616888e2213e76670b2a792"
+  }
 },
 {
   "_id": {
@@ -357,7 +379,9 @@
     "600m": 81.64,
     "800m": 113.92
   },
-  "coach": "6616888e2213e76670b2a792"
+  "coach_id": {
+    "$oid": "6616888e2213e76670b2a792"
+  }
 },
 {
   "_id": {
@@ -371,7 +395,6 @@
   "gender": "male",
   "nationality": "Poland",
   "club": "KKL Stal Stalowa Wola",
-  "coach": "6616888e2213e76670b2a793",
   "category": "Youth",
   "specialities": [
     "800m",
@@ -388,6 +411,9 @@
     "800m": 114.93,
     "1000m": 157.41,
     "1500m": 235.81
+  },
+  "coach_id": {
+    "$oid": "6616888e2213e76670b2a793"
   }
 },
 {
@@ -402,7 +428,6 @@
   "gender": "male",
   "nationality": "Poland",
   "club": "KKL Stal Stalowa Wola",
-  "coach": "6616888e2213e76670b2a793",
   "category": "Junior",
   "specialities": [
     "400m",
@@ -420,6 +445,9 @@
     "300m": 36.33,
     "400m": 51.34,
     "600m": 83.2
+  },
+  "coach_id": {
+    "$oid": "6616888e2213e76670b2a793"
   }
 },
 {
@@ -434,7 +462,6 @@
   "gender": "male",
   "nationality": "Poland",
   "club": "UKS Tempo 5 Przemysl",
-  "coach": "6616888e2213e76670b2a794",
   "category": "Junior",
   "specialities": [
     "800m",
@@ -450,6 +477,9 @@
   "personal_records_short_track": {
     "600m": 86.58,
     "1000m": 157.68
+  },
+  "coach_id": {
+    "$oid": "6616888e2213e76670b2a794"
   }
 },
 {
@@ -464,7 +494,6 @@
   "gender": "male",
   "nationality": "Poland",
   "club": "KML Lubaczow",
-  "coach": "665a07b746fdea9886199dd8",
   "category": "Younger junior",
   "specialities": [
     "1500m",
@@ -479,5 +508,20 @@
   },
   "personal_records_short_track": {
     "600m": 92.07
+  },
+  "coach_id": {
+    "$oid": "665a07b746fdea9886199dd8"
   }
+},
+{
+  "_id": {
+    "$oid": "665e003665b83e2208a96dca"
+  },
+  "coach_id": {
+    "$oid": "665e04eb65b83e2d0060e29d"
+  },
+  "firstname": "Kamil",
+  "gender": "male",
+  "lastname": "Kopcio",
+  "nationality": "Poland"
 }]
