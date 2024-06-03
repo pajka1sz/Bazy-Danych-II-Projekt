@@ -42,6 +42,14 @@ public class CrudRead {
         return entityManager.createQuery(query, Report.class).getResultList();
     }
 
+    public List<Competition> getAllCompetitions() {
+        /**
+         * Returns list of all competitions in all meetings.
+         */
+        String query = "FROM Competition";
+        return entityManager.createQuery(query, Competition.class).getResultList();
+    }
+
     public List<Competition> getAllMeetingCompetitions(@NotNull Meeting meeting) {
         /**
          * @param meeting
@@ -85,7 +93,7 @@ public class CrudRead {
     }
 
     public List<Report> getReportsOfAllAthletesParticipatingInMeetingInDiscipline(@NotNull Meeting meeting,
-                                                                                  @NotNull Competition competition) {
+                                                                                  @NotNull String discipline) {
         /**
          * @param meeting
          * @param competition
@@ -94,7 +102,18 @@ public class CrudRead {
         List<Report> allReportsFromThisMeeting = getReportsOfAllAthletesParticipatingInMeeting(meeting);
         List<Report> results = new ArrayList<>();
         for (Report report: allReportsFromThisMeeting) {
-            if (report.getDiscipline().equals(competition.getDiscipline()))
+            if (report.getDiscipline().equals(discipline))
+                results.add(report);
+        }
+        return results;
+    }
+
+    public List<Report> getReportsOfAllNotCancelledAthletesParticipatingInMeetingInDiscipline(@NotNull Meeting meeting,
+                                                                                              @NotNull String discipline) {
+        List<Report> allReportsInThisCompetitionInThisMeeting = getReportsOfAllAthletesParticipatingInMeetingInDiscipline(meeting, discipline);
+        List<Report> results = new ArrayList<>();
+        for (Report report: allReportsInThisCompetitionInThisMeeting) {
+            if (!report.getStatus().equals("cancelled"))
                 results.add(report);
         }
         return results;

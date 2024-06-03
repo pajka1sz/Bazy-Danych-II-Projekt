@@ -17,6 +17,9 @@ public class CrudUpdate {
          * Adds athlete to specified coach.
          */
         coach.addAthlete(athlete);
+        athlete.setCoach(coach);
+        entityManager.merge(coach);
+        entityManager.merge(athlete);
     }
 
     @Transactional
@@ -35,6 +38,7 @@ public class CrudUpdate {
             return;
         }
         report.setStatus(newStatus);
+        entityManager.merge(report);
     }
 
     @Transactional
@@ -45,5 +49,6 @@ public class CrudUpdate {
          * Adds competition to specified meeting.
          */
         meeting.addCompetition(competition);
+        entityManager.merge(meeting);
     }
 }
