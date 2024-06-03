@@ -1,5 +1,7 @@
 package org.example.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.bson.types.ObjectId;
 
 import javax.persistence.*;
@@ -11,32 +13,59 @@ import java.util.Map;
 @Entity
 @Table(name = "Zawodnicy")
 public class Athlete {
+    @Getter
     @Id
     private ObjectId id;
+    @Getter
+    @Setter
     private String firstname;
+    @Getter
+    @Setter
     private String lastname;
+    @Getter
+    @Setter
     private Date birth_date;
+    @Getter
+    @Setter
     private String gender;
+    @Getter
+    @Setter
     private String nationality;
+    @Getter
+    @Setter
     private String category;
+    @Getter
+    @Setter
+    private String club;
+    @Getter
+    @Setter
     @ElementCollection
     private List<String> specialities;
+    @Getter
+    @Setter
     @ElementCollection
-    @CollectionTable(name = "PersonalRecordsOutdoor", joinColumns = @JoinColumn(name = "_id"))
+    @CollectionTable(name = "PersonalRecordsOutdoor", joinColumns = @JoinColumn(name = "id"))
     @MapKeyColumn(name = "discipline")
     @Column(name = "record")
     private Map<String, Double> personalRecordsOutdoor;
+    @Getter
+    @Setter
     @ElementCollection
-    @CollectionTable(name = "PersonalRecordsShortTrack", joinColumns = @JoinColumn(name = "_id"))
+    @CollectionTable(name = "PersonalRecordsShortTrack", joinColumns = @JoinColumn(name = "id"))
     @MapKeyColumn(name = "discipline")
     @Column(name = "record")
     private Map<String, Double> personalRecordsShortTrack;
+
+    @Getter
+    @Setter
+    @ManyToOne
+    private Coach coach;
 
     public Athlete() {
 
     }
 
-    public Athlete(ObjectId id, String firstname, String lastname, Date birth_date, String gender, String nationality, String category, List<String> specialities, Map<String, Double> personalRecordsOutdoor, Map<String, Double> personalRecordsShortTrack) {
+    public Athlete(ObjectId id, String firstname, String lastname, Date birth_date, String gender, String nationality, String category, String club, List<String> specialities, Map<String, Double> personalRecordsOutdoor, Map<String, Double> personalRecordsShortTrack, Coach coach) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -44,88 +73,47 @@ public class Athlete {
         this.gender = gender;
         this.nationality = nationality;
         this.category = category;
+        this.club = club;
         this.specialities = specialities;
         this.personalRecordsOutdoor = personalRecordsOutdoor;
         this.personalRecordsShortTrack = personalRecordsShortTrack;
+        this.coach = coach;
     }
 
-    public ObjectId getId() {
-        return id;
-    }
-
-    public void setId(ObjectId id) {
+    public Athlete(ObjectId id, String firstname, String lastname, String gender, String nationality, Coach coach) {
         this.id = id;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
         this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
         this.lastname = lastname;
-    }
-
-    public Date getBirth_date() {
-        return birth_date;
-    }
-
-    public void setBirth_date(Date birth_date) {
-        this.birth_date = birth_date;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public String getNationality() {
-        return nationality;
-    }
-
-    public void setNationality(String nationality) {
         this.nationality = nationality;
+        this.coach = coach;
     }
 
-    public String getCategory() {
-        return category;
+    private String personalRecordsOutdoorToString() {
+        if (personalRecordsOutdoor == null)
+            return "{}";
+        String result = "{";
+        for (String discipline: personalRecordsOutdoor.keySet())
+            result += discipline + ": " + personalRecordsOutdoor.get(discipline);
+        result += "}";
+        return result;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public List<String> getSpecialities() {
-        return specialities;
-    }
-
-    public void setSpecialities(List<String> specialities) {
-        this.specialities = specialities;
-    }
-
-    public Map<String, Double> getPersonalRecordsOutdoor() {
-        return personalRecordsOutdoor;
-    }
-
-    public void setPersonalRecordsOutdoor(Map<String, Double> personalRecordsOutdoor) {
-        this.personalRecordsOutdoor = personalRecordsOutdoor;
-    }
-
-    public Map<String, Double> getPersonalRecordsShortTrack() {
-        return personalRecordsShortTrack;
-    }
-
-    public void setPersonalRecordsShortTrack(Map<String, Double> personalRecordsShortTrack) {
-        this.personalRecordsShortTrack = personalRecordsShortTrack;
+    @Override
+    public String toString() {
+        return "Athlete{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", birth_date=" + birth_date +
+                ", gender='" + gender + '\'' +
+                ", nationality='" + nationality + '\'' +
+                ", category='" + category + '\'' +
+                ", club='" + club + '\'' +
+                ", specialities=" + specialities +
+                ", personalRecordsOutdoor=" + this.personalRecordsOutdoorToString() +
+                ", personalRecordsShortTrack=" + personalRecordsShortTrack +
+                ", coach=" + coach.toStringWithoutAthletes() +
+                '}';
     }
 }

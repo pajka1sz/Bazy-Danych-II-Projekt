@@ -1,22 +1,40 @@
 package org.example.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.bson.types.ObjectId;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "Trenerzy")
 public class Coach {
     @Id
+    @Getter
     private ObjectId id;
+    @Getter
+    @Setter
     private String firstname;
+    @Getter
+    @Setter
     private String lastname;
+    @Getter
+    @Setter
     private String nationality;
+    @Getter
+    @Setter
     private String club;
+    @Getter
+    @Setter
     @ElementCollection
     private List<String> coaching;
+
+    @Getter
+    @Setter
+    @OneToMany
+    private List<Athlete> athletes = new ArrayList<>();
 
     public Coach() {
 
@@ -31,51 +49,31 @@ public class Coach {
         this.coaching = coaching;
     }
 
-    public ObjectId getId() {
-        return id;
+    public void addAthlete(Athlete athlete) {
+        this.athletes.add(athlete);
     }
 
-    public void setId(ObjectId id) {
-        this.id = id;
+    @Override
+    public String toString() {
+        return "Coach{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", nationality='" + nationality + '\'' +
+                ", club='" + club + '\'' +
+                ", coaching=" + coaching +
+                ", athletes=" + athletes +
+                '}';
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getNationality() {
-        return nationality;
-    }
-
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
-    }
-
-    public String getClub() {
-        return club;
-    }
-
-    public void setClub(String club) {
-        this.club = club;
-    }
-
-    public List<String> getCoaching() {
-        return coaching;
-    }
-
-    public void setCoaching(List<String> coaching) {
-        this.coaching = coaching;
+    public String toStringWithoutAthletes() {
+        return "Coach{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", nationality='" + nationality + '\'' +
+                ", club='" + club + '\'' +
+                ", coaching=" + coaching +
+                '}';
     }
 }

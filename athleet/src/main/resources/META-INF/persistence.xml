@@ -8,6 +8,10 @@
     <persistence-unit name="MongoDBPersistenceUnit" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
         <class>org.example.model.Athlete</class>
+        <class>org.example.model.Coach</class>
+        <class>org.example.model.Report</class>
+        <class>org.example.model.Meeting</class>
+        <class>org.example.model.Competition</class>
         <properties>
             <property name="hibernate.ogm.datastore.provider" value="MONGODB"/>
             <property name="hibernate.ogm.datastore.database" value="athleet"/>

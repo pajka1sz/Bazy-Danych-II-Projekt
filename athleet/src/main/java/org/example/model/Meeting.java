@@ -1,5 +1,7 @@
 package org.example.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.bson.types.ObjectId;
 
 import javax.persistence.ElementCollection;
@@ -10,11 +12,20 @@ import java.util.List;
 
 @Entity
 public class Meeting {
+    @Getter
     @Id
     private ObjectId id;
+    @Getter
+    @Setter
     private String name;
+    @Getter
+    @Setter
     private String city;
+    @Getter
+    @Setter
     private Date date;
+    @Getter
+    @Setter
     @ElementCollection
     private List<Competition> competitions;
 
@@ -30,43 +41,7 @@ public class Meeting {
         this.competitions = competitions;
     }
 
-    public ObjectId getId() {
-        return id;
-    }
-
-    public void setId(ObjectId id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public List<Competition> getCompetitions() {
-        return competitions;
-    }
-
-    public void setCompetitions(List<Competition> competitions) {
-        this.competitions = competitions;
+    public void addCompetition(Competition competition) {
+        this.competitions.add(competition);
     }
 }
