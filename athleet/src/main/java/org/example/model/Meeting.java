@@ -4,9 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bson.types.ObjectId;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +25,8 @@ public class Meeting {
     private Date date;
     @Getter
     @Setter
-    @ElementCollection
+    @Embedded
+    @OneToMany
     private List<Competition> competitions;
 
     public Meeting() {
