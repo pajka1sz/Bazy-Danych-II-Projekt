@@ -2,13 +2,14 @@ package org.example.model;
 
 import org.bson.types.ObjectId;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.sql.Date;
+import javax.persistence.*;
+
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 @Entity
+@Table(name = "Zawodnicy")
 public class Athlete {
     @Id
     private ObjectId id;
@@ -18,8 +19,17 @@ public class Athlete {
     private String gender;
     private String nationality;
     private String category;
+    @ElementCollection
     private List<String> specialities;
+    @ElementCollection
+    @CollectionTable(name = "PersonalRecordsOutdoor", joinColumns = @JoinColumn(name = "_id"))
+    @MapKeyColumn(name = "discipline")
+    @Column(name = "record")
     private Map<String, Double> personalRecordsOutdoor;
+    @ElementCollection
+    @CollectionTable(name = "PersonalRecordsShortTrack", joinColumns = @JoinColumn(name = "_id"))
+    @MapKeyColumn(name = "discipline")
+    @Column(name = "record")
     private Map<String, Double> personalRecordsShortTrack;
 
     public Athlete() {

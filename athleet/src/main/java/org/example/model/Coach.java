@@ -2,6 +2,7 @@ package org.example.model;
 
 import org.bson.types.ObjectId;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.List;
@@ -14,6 +15,7 @@ public class Coach {
     private String lastname;
     private String nationality;
     private String club;
+    @ElementCollection
     private List<String> coaching;
 
     public Coach() {
