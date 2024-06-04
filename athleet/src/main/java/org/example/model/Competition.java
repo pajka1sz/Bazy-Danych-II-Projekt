@@ -5,9 +5,11 @@ import lombok.Setter;
 import org.bson.types.ObjectId;
 
 import javax.persistence.Embeddable;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Embeddable
+@Entity
 public class Competition {
     @Getter
     @Id

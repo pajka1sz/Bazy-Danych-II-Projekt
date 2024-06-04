@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CrudRead {
-    private final EntityManager entityManager = Main.entityManager;
+    private final EntityManager entityManager;
+    public CrudRead(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
     public List<Athlete> getAllAthletes() {
         /**
          * Returns list of all athletes.
@@ -86,7 +89,7 @@ public class CrudRead {
         List<Report> allReports = getAllReports();
         List<Report> results = new ArrayList<>();
         for (Report report: allReports) {
-            if (report.getMeeting().equals(meeting))
+            if (report.getMeeting() != null && report.getMeeting().getId().equals(meeting.getId()))
                 results.add(report);
         }
         return results;
@@ -102,7 +105,7 @@ public class CrudRead {
         List<Report> allReportsFromThisMeeting = getReportsOfAllAthletesParticipatingInMeeting(meeting);
         List<Report> results = new ArrayList<>();
         for (Report report: allReportsFromThisMeeting) {
-            if (report.getDiscipline().equals(discipline))
+            if (report.getDiscipline() != null && report.getDiscipline().equals(discipline))
                 results.add(report);
         }
         return results;
@@ -113,7 +116,7 @@ public class CrudRead {
         List<Report> allReportsInThisCompetitionInThisMeeting = getReportsOfAllAthletesParticipatingInMeetingInDiscipline(meeting, discipline);
         List<Report> results = new ArrayList<>();
         for (Report report: allReportsInThisCompetitionInThisMeeting) {
-            if (!report.getStatus().equals("cancelled"))
+            if (report.getStatus() != null && !report.getStatus().equals("cancelled"))
                 results.add(report);
         }
         return results;

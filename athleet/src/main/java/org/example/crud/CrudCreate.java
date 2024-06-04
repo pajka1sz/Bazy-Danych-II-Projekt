@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CrudCreate {
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     public CrudCreate(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -72,14 +72,18 @@ public class CrudCreate {
             System.out.println("You cannot assign an athlete to discipline specified for another gender!");
             return null;
         }
-        CrudRead crudRead = new CrudRead();
+        CrudRead crudRead = new CrudRead(entityManager);
         List<Competition> competitions = crudRead.getAllMeetingCompetitions(meeting);
-        int max_no_participants = 0;
+        int max_no_participants = -1;
         for (Competition competition: competitions) {
             if (competition.getDiscipline().equals(discipline)) {
                 max_no_participants = competition.getMax_no_competitors();
                 break;
             }
+        }
+        if (max_no_participants == -1) {
+            System.out.println("There is no such discipline in this meeting!");
+            return null;
         }
         if (crudRead.getReportsOfAllNotCancelledAthletesParticipatingInMeetingInDiscipline(meeting, discipline).size()
                 >= max_no_participants) {
@@ -96,8 +100,13 @@ public class CrudCreate {
     @Transactional
     public Competition createCompetition(@NotNull String discipline, int max_no_competitors) {
         /**
-         * Creates competition and returns it. .
+         * Creates competition, if it is not already created, and returns it.
          */
+        List<Competition> competitions = entityManager.createQuery("FROM Competition", Competition.class).getResultList();
+        for (Competition competition: competitions) {
+            if (competition.getDiscipline().equals(discipline) && competition.getMax_no_competitors() == max_no_competitors)
+                return null;
+        }
         Competition competition = new Competition(discipline, max_no_competitors);
         entityManager.getTransaction().begin();
         entityManager.persist(competition);

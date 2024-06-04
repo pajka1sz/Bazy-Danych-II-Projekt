@@ -7,7 +7,11 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 public class CrudUpdate {
-    private final EntityManager entityManager = Main.entityManager;
+    private final EntityManager entityManager;
+
+    public CrudUpdate(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     @Transactional
     public void addAthleteToCoach(Athlete athlete, Coach coach) {
@@ -16,10 +20,12 @@ public class CrudUpdate {
          * @param coach
          * Adds athlete to specified coach.
          */
+        entityManager.getTransaction().begin();
         coach.addAthlete(athlete);
         athlete.setCoach(coach);
         entityManager.merge(coach);
         entityManager.merge(athlete);
+        entityManager.getTransaction().commit();
     }
 
     @Transactional
@@ -37,8 +43,10 @@ public class CrudUpdate {
             System.out.println("Wrong status type! The available ones are: reported, confirmed, cancelled");
             return;
         }
+        entityManager.getTransaction().begin();
         report.setStatus(newStatus);
         entityManager.merge(report);
+        entityManager.getTransaction().commit();
     }
 
     @Transactional
@@ -48,7 +56,9 @@ public class CrudUpdate {
          * @param competition
          * Adds competition to specified meeting.
          */
+        entityManager.getTransaction().begin();
         meeting.addCompetition(competition);
         entityManager.merge(meeting);
+        entityManager.getTransaction().commit();
     }
 }

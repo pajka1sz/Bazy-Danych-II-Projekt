@@ -92,7 +92,7 @@ public class Athlete {
             return "{}";
         String result = "{";
         for (String discipline: personalRecordsOutdoor.keySet())
-            result += discipline + ": " + personalRecordsOutdoor.get(discipline);
+            result += discipline + ": " + personalRecordsOutdoor.get(discipline) + ", ";
         result += "}";
         return result;
     }

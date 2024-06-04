@@ -51,4 +51,17 @@ public class Report {
         this.status = isConfirmed ? "confirmed" : "reported";
         this.date = date;
     }
+
+    @Override
+    public String toString() {
+        return "Report{" +
+                "id=" + id +
+                ", meeting=" + meeting +
+                ", athlete=" + athlete +
+                ", coach=" + coach +
+                ", discipline='" + discipline + '\'' +
+                ", status='" + status + '\'' +
+                ", date=" + date +
+                '}';
+    }
 }
