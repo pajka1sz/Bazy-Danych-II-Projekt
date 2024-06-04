@@ -21,6 +21,7 @@ public class CrudUpdate {
          * Adds athlete to specified coach.
          */
         entityManager.getTransaction().begin();
+        athlete.getCoach().getAthletes().remove(athlete);
         coach.addAthlete(athlete);
         athlete.setCoach(coach);
         entityManager.merge(coach);

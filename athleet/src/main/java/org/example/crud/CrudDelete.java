@@ -40,22 +40,29 @@ public class CrudDelete {
     public void deleteAthlete(@NotNull Athlete athlete) {
         Athlete foundAthlete = entityManager.find(Athlete.class, athlete.getId());
         if (foundAthlete != null) {
-            System.out.println("There is no such athlete in the database!");
             entityManager.getTransaction().begin();
+            athlete.getCoach().getAthletes().remove(athlete);
             entityManager.remove(foundAthlete);
             entityManager.getTransaction().commit();
         }
+        else
+            System.out.println("There is no such athlete in the database!");
     }
 
     @Transactional
     public void deleteCoach(@NotNull Coach coach) {
         Coach foundCoach = entityManager.find(Coach.class, coach.getId());
         if (foundCoach != null) {
-            System.out.println("There is no such coach in the database!");
             entityManager.getTransaction().begin();
+            for (Athlete athlete: coach.getAthletes()) {
+                athlete.setCoach(null);
+                entityManager.merge(athlete);
+            }
             entityManager.remove(foundCoach);
             entityManager.getTransaction().commit();
         }
+        else
+            System.out.println("There is no such coach in the database!");
     }
 
     @Transactional
