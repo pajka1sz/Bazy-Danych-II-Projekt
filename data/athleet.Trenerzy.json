@@ -1,0 +1,114 @@
+[{
+  "_id": {
+    "$oid": "6616888e2213e76670b2a791"
+  },
+  "firstname": "Janusz",
+  "lastname": "Mazurczak",
+  "nationality": "Poland",
+  "club": "CWKS Resovia Rzeszow",
+  "coaching": [
+    "sprints",
+    "hurdles"
+  ]
+},
+{
+  "_id": {
+    "$oid": "6616888e2213e76670b2a792"
+  },
+  "firstname": "Piotr",
+  "lastname": "Kowalski",
+  "nationality": "Poland",
+  "club": "CWKS Resovia Rzeszow",
+  "coaching": [
+    "middledistances",
+    "longdistances",
+    "steeplechase"
+  ]
+},
+{
+  "_id": {
+    "$oid": "6616888e2213e76670b2a793"
+  },
+  "firstname": "Miroslaw",
+  "lastname": "Baran",
+  "nationality": "Poland",
+  "club": "KKL Stal Stalowa Wola",
+  "coaching": [
+    "sprints",
+    "middledistances",
+    "longdistances"
+  ]
+},
+{
+  "_id": {
+    "$oid": "6616888e2213e76670b2a794"
+  },
+  "firstname": "Maria",
+  "lastname": "Cukier",
+  "nationality": "Poland",
+  "club": "UKS Tempo 5 Przemysl",
+  "coaching": [
+    "sprints",
+    "middledistances",
+    "hurdles",
+    "steeplechase"
+  ]
+},
+{
+  "_id": {
+    "$oid": "66168f41f5eb4896aa16c9b5"
+  },
+  "firstname": "Bogdan",
+  "lastname": "Dudczak",
+  "club": "CWKS Resovia Rzeszow",
+  "coaching": [
+    "middledistance",
+    "longdistance",
+    "racewalking"
+  ],
+  "nationality": "Poland"
+},
+{
+  "_id": {
+    "$oid": "665a068a46fdea9886199dce"
+  },
+  "firstname": "Bob",
+  "lastname": "Beamon",
+  "nationality": "United States",
+  "club": "International Coaching",
+  "coaching": [
+    "sprints",
+    "hurdles",
+    "jumps"
+  ]
+},
+{
+  "_id": {
+    "$oid": "665a07b746fdea9886199dd8"
+  },
+  "firstname": "Stanislaw",
+  "lastname": "Wazki",
+  "nationality": "Poland",
+  "club": "KML Lubaczow",
+  "coaching": [
+    "middledistances",
+    "longdistances"
+  ]
+},
+{
+  "_id": {
+    "$oid": "665e04eb65b83e2d0060e29d"
+  },
+  "firstname": "Szymon",
+  "nationality": "Poland",
+  "club": "CWKS Resovia Rzeszow",
+  "lastname": "Grabowski",
+  "athletes": [
+    {
+      "$oid": "665e003665b83e2208a96dca"
+    }
+  ],
+  "coaching": [
+    "football"
+  ]
+}]
