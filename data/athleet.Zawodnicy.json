@@ -1,0 +1,527 @@
+[{
+  "_id": {
+    "$oid": "66165e1a2213e76670b2a778"
+  },
+  "firstname": "Usain",
+  "lastname": "Bolt",
+  "birth_date": {
+    "$date": "1986-08-21T00:00:00.000Z"
+  },
+  "gender": "male",
+  "nationality": "Jamaica",
+  "category": "Senior",
+  "specialities": [
+    "100m",
+    "200m",
+    "4x100m"
+  ],
+  "personal_records_outdoor": {
+    "100m": 9.58,
+    "200m": 19.19,
+    "300m": 30.97,
+    "400m": 45.28,
+    "4x100m": 36.84
+  },
+  "personal_records_short_track": {},
+  "coach_id": {
+    "$oid": "665a068a46fdea9886199dce"
+  }
+},
+{
+  "_id": {
+    "$oid": "6616713e2213e76670b2a77d"
+  },
+  "firstname": "Ferdinand",
+  "lastname": "Omanyala",
+  "birth_date": {
+    "$date": "1996-01-02T00:00:00.000Z"
+  },
+  "gender": "male",
+  "nationality": "Kenya",
+  "category": "Senior",
+  "specialities": [
+    "60m",
+    "100m",
+    "4x100m"
+  ],
+  "personal_records_short_track": {
+    "60m": 6.51
+  },
+  "personal_records_outdoor": {
+    "100m": 9.77,
+    "200m": 20.33,
+    "400m": 49.06,
+    "4x100m": 38.82
+  },
+  "coach_id": {
+    "$oid": "665a068a46fdea9886199dce"
+  }
+},
+{
+  "_id": {
+    "$oid": "6616713e2213e76670b2a77e"
+  },
+  "firstname": "Christian",
+  "lastname": "Coleman",
+  "birth_date": {
+    "$date": "1996-06-02T22:00:00.000Z"
+  },
+  "gender": "male",
+  "nationality": "United States",
+  "category": "Senior",
+  "specialities": [
+    "60m",
+    "100m",
+    "4x100m"
+  ],
+  "personal_records_outdoor": {
+    "100m": 9.76,
+    "200m": 19.85,
+    "300m": 33.2,
+    "4x100m": 37.1
+  },
+  "personal_records_short_track": {
+    "60m": 6.34,
+    "200m": 20.11,
+    "300m": 33.26
+  },
+  "coach_id": {
+    "$oid": "665a068a46fdea9886199dce"
+  }
+},
+{
+  "_id": {
+    "$oid": "6616713e2213e76670b2a77f"
+  },
+  "firstname": "Noah",
+  "lastname": "Lyles",
+  "birth_date": {
+    "$date": "1997-07-18T00:00:00.000Z"
+  },
+  "gender": "male",
+  "nationality": "United States",
+  "category": "Senior",
+  "specialities": [
+    "60m",
+    "100m",
+    "200m",
+    "4x100m"
+  ],
+  "personal_records_short_track": {
+    "60m": 6.43,
+    "200m": 20.63,
+    "300m": 31.87,
+    "4x400m": 182.6
+  },
+  "personal_records_outdoor": {
+    "100m": 9.83,
+    "200m": 19.31,
+    "400m": 47.04,
+    "4x100m": 37.1
+  },
+  "coach_id": {
+    "$oid": "665a068a46fdea9886199dce"
+  }
+},
+{
+  "_id": {
+    "$oid": "661680852213e76670b2a781"
+  },
+  "firstname": "Rafal",
+  "lastname": "Rembacz",
+  "birth_date": {
+    "$date": "2003-10-23T00:00:00.000Z"
+  },
+  "gender": "male",
+  "nationality": "Poland",
+  "club": "CWKS Resovia Rzeszow",
+  "category": "Youth",
+  "specialities": [
+    "60m",
+    "100m",
+    "200m"
+  ],
+  "personal_records_outdoor": {
+    "100m": 10.54,
+    "200m": 22.02,
+    "300m": 36.05
+  },
+  "personal_records_short_track": {
+    "60m": 6.83,
+    "200m": 21.96
+  },
+  "coach_id": {
+    "$oid": "6616888e2213e76670b2a791"
+  }
+},
+{
+  "_id": {
+    "$oid": "661680852213e76670b2a782"
+  },
+  "firstname": "Artem",
+  "lastname": "Jakubski",
+  "birth_date": {
+    "$date": "2004-06-07T00:00:00.000Z"
+  },
+  "gender": "male",
+  "nationality": "Poland",
+  "club": "CWKS Resovia Rzeszow",
+  "category": "Youth",
+  "specialities": [
+    "400mh",
+    "400m"
+  ],
+  "personal_records_outdoor": {
+    "100m": 11.99,
+    "200m": 23.93,
+    "300m": 36.62,
+    "400m": 51.99,
+    "300mh": 41.42,
+    "400mh": 55.21
+  },
+  "personal_records_short_track": {
+    "200m": 23.96,
+    "300m": 37.23,
+    "400m": 52.74
+  },
+  "coach_id": {
+    "$oid": "6616888e2213e76670b2a791"
+  }
+},
+{
+  "_id": {
+    "$oid": "661680852213e76670b2a783"
+  },
+  "firstname": "Jakub",
+  "lastname": "Nowakowski",
+  "birth_date": {
+    "$date": "2004-02-12T00:00:00.000Z"
+  },
+  "gender": "male",
+  "nationality": "Poland",
+  "club": "CWKS Resovia Rzeszow",
+  "category": "Youth",
+  "specialities": [
+    "60m",
+    "100m"
+  ],
+  "personal_records_outdoor": {
+    "100m": 11.4,
+    "200m": 22.69,
+    "300m": 37.87
+  },
+  "personal_records_short_track": {
+    "60m": 6.98,
+    "200m": 22.62
+  },
+  "coach_id": {
+    "$oid": "6616888e2213e76670b2a791"
+  }
+},
+{
+  "_id": {
+    "$oid": "661680852213e76670b2a784"
+  },
+  "firstname": "Tomasz",
+  "lastname": "Paja",
+  "birth_date": {
+    "$date": "2004-06-10T00:00:00.000Z"
+  },
+  "gender": "male",
+  "nationality": "Poland",
+  "club": "CWKS Resovia Rzeszow",
+  "category": "Youth",
+  "specialities": [
+    "800m",
+    "1500m",
+    "3000m"
+  ],
+  "personal_records_outdoor": {
+    "800m": 117.42,
+    "1500m": 238.07,
+    "3000m": 512.39,
+    "1000m": 155.72
+  },
+  "personal_records_short_track": {
+    "800m": 116.29,
+    "1000m": 152.17,
+    "1500m": 239.91
+  },
+  "coach_id": {
+    "$oid": "6616888e2213e76670b2a792"
+  }
+},
+{
+  "_id": {
+    "$oid": "661680852213e76670b2a785"
+  },
+  "firstname": "Szymon",
+  "lastname": "Paja",
+  "birth_date": {
+    "$date": "2004-06-10T00:00:00.000Z"
+  },
+  "gender": "male",
+  "nationality": "Poland",
+  "club": "CWKS Resovia Rzeszow",
+  "category": "Youth",
+  "specialities": [
+    "800m",
+    "1500m",
+    "3000m"
+  ],
+  "personal_records_outdoor": {
+    "400m": 53.08,
+    "800m": 118.38,
+    "1500m": 244.06,
+    "3000m": 535.44
+  },
+  "personal_records_short_track": {
+    "800m": 120.58,
+    "1000m": 156.13,
+    "1500m": 246.69
+  },
+  "coach_id": {
+    "$oid": "6616888e2213e76670b2a792"
+  }
+},
+{
+  "_id": {
+    "$oid": "661680852213e76670b2a786"
+  },
+  "firstname": "Bartosz",
+  "lastname": "Trojan",
+  "birth_date": {
+    "$date": "2004-06-07T00:00:00.000Z"
+  },
+  "gender": "male",
+  "nationality": "Poland",
+  "club": "CWKS Resovia Rzeszow",
+  "category": "Youth",
+  "specialities": [
+    "1500m",
+    "2000msc",
+    "3000msc"
+  ],
+  "personal_records_outdoor": {
+    "800m": 118.35,
+    "1500m": 241.04,
+    "2000msc": 356.49,
+    "3000msc": 554.41
+  },
+  "personal_records_short_track": {
+    "600m": 85.85,
+    "800m": 119.25,
+    "1000m": 157.07,
+    "1500m": 242.98
+  },
+  "coach_id": {
+    "$oid": "6616888e2213e76670b2a792"
+  }
+},
+{
+  "_id": {
+    "$oid": "661680852213e76670b2a787"
+  },
+  "firstname": "Bartlomiej",
+  "lastname": "Watrobka",
+  "birth_date": {
+    "$date": "2004-05-17T00:00:00.000Z"
+  },
+  "gender": "male",
+  "nationality": "Poland",
+  "club": "CWKS Resovia Rzeszow",
+  "category": "Youth",
+  "specialities": [
+    "800m",
+    "1500m"
+  ],
+  "personal_records_outdoor": {
+    "800m": 115.59,
+    "1000m": 152.64,
+    "1500m": 240.14,
+    "2000m": 356.56
+  },
+  "personal_records_short_track": {
+    "800m": 118.16,
+    "1000m": 155.96,
+    "1500m": 239.65
+  },
+  "coach_id": {
+    "$oid": "6616888e2213e76670b2a792"
+  }
+},
+{
+  "_id": {
+    "$oid": "661680852213e76670b2a788"
+  },
+  "firstname": "Jakub",
+  "lastname": "Chudy",
+  "birth_date": {
+    "$date": "2004-07-24T00:00:00.000Z"
+  },
+  "gender": "male",
+  "nationality": "Poland",
+  "club": "CWKS Resovia Rzeszow",
+  "category": "Youth",
+  "specialities": [
+    "400m",
+    "800m",
+    "1500m"
+  ],
+  "personal_records_outdoor": {
+    "400m": 49.73,
+    "800m": 112.83,
+    "1500m": 239.48
+  },
+  "personal_records_short_track": {
+    "300m": 35.74,
+    "400m": 51.52,
+    "600m": 81.64,
+    "800m": 113.92
+  },
+  "coach_id": {
+    "$oid": "6616888e2213e76670b2a792"
+  }
+},
+{
+  "_id": {
+    "$oid": "6616856d2213e76670b2a78a"
+  },
+  "firstname": "Jacek",
+  "lastname": "Skrzecz",
+  "birth_date": {
+    "$date": "2004-09-11T00:00:00.000Z"
+  },
+  "gender": "male",
+  "nationality": "Poland",
+  "club": "KKL Stal Stalowa Wola",
+  "category": "Youth",
+  "specialities": [
+    "800m",
+    "1500m"
+  ],
+  "personal_records_outdoor": {
+    "600m": 84.2,
+    "800m": 114.85,
+    "1000m": 153.1,
+    "1500m": 243.43
+  },
+  "personal_records_short_track": {
+    "600m": 84.2,
+    "800m": 114.93,
+    "1000m": 157.41,
+    "1500m": 235.81
+  },
+  "coach_id": {
+    "$oid": "6616888e2213e76670b2a793"
+  }
+},
+{
+  "_id": {
+    "$oid": "6616856d2213e76670b2a78b"
+  },
+  "firstname": "Marek",
+  "lastname": "Gryka",
+  "birth_date": {
+    "$date": "2006-01-25T00:00:00.000Z"
+  },
+  "gender": "male",
+  "nationality": "Poland",
+  "club": "KKL Stal Stalowa Wola",
+  "category": "Junior",
+  "specialities": [
+    "400m",
+    "600m",
+    "800m"
+  ],
+  "personal_records_outdoor": {
+    "300m": 36.64,
+    "400m": 50.56,
+    "600m": 83.65,
+    "800m": 115.18,
+    "1000m": 154.1
+  },
+  "personal_records_short_track": {
+    "300m": 36.33,
+    "400m": 51.34,
+    "600m": 83.2
+  },
+  "coach_id": {
+    "$oid": "6616888e2213e76670b2a793"
+  }
+},
+{
+  "_id": {
+    "$oid": "6616856d2213e76670b2a78c"
+  },
+  "firstname": "Rafal",
+  "lastname": "Klin",
+  "birth_date": {
+    "$date": "2006-01-21T00:00:00.000Z"
+  },
+  "gender": "male",
+  "nationality": "Poland",
+  "club": "UKS Tempo 5 Przemysl",
+  "category": "Junior",
+  "specialities": [
+    "800m",
+    "1500m"
+  ],
+  "personal_records_outdoor": {
+    "400m": 52.5,
+    "800m": 115.47,
+    "1000m": 154.26,
+    "1500m": 245,
+    "1000msc": 168.97
+  },
+  "personal_records_short_track": {
+    "600m": 86.58,
+    "1000m": 157.68
+  },
+  "coach_id": {
+    "$oid": "6616888e2213e76670b2a794"
+  }
+},
+{
+  "_id": {
+    "$oid": "6616856d2213e76670b2a78d"
+  },
+  "firstname": "Michal",
+  "lastname": "Bosy",
+  "birth_date": {
+    "$date": "2007-01-26T00:00:00.000Z"
+  },
+  "gender": "male",
+  "nationality": "Poland",
+  "club": "KML Lubaczow",
+  "category": "Younger junior",
+  "specialities": [
+    "1500m",
+    "3000m"
+  ],
+  "personal_records_outdoor": {
+    "600m": 87.86,
+    "800m": 122.64,
+    "1000m": 155.97,
+    "1500m": 254.82,
+    "3000m": 549.41
+  },
+  "personal_records_short_track": {
+    "600m": 92.07
+  },
+  "coach_id": {
+    "$oid": "665a07b746fdea9886199dd8"
+  }
+},
+{
+  "_id": {
+    "$oid": "665e003665b83e2208a96dca"
+  },
+  "coach_id": {
+    "$oid": "665e04eb65b83e2d0060e29d"
+  },
+  "firstname": "Kamil",
+  "gender": "male",
+  "lastname": "Kopcio",
+  "nationality": "Poland"
+}]

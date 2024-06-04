@@ -1,0 +1,84 @@
+[{
+  "_id": {
+    "$oid": "66169321f5eb4896aa16c9b6"
+  },
+  "name": "70. ORLEN Memorial Janusza Kusocinskiego",
+  "city": "Chorzow",
+  "date": {
+    "$date": "2024-05-18T17:00:00.000Z"
+  },
+  "competitions": [
+    {
+      "discipline": "100m F",
+      "max_no_competitors": 8
+    },
+    {
+      "discipline": "100m M",
+      "max_no_competitors": 8
+    },
+    {
+      "discipline": "200m F",
+      "max_no_competitors": 8
+    },
+    {
+      "discipline": "200m M",
+      "max_no_competitors": 8
+    },
+    {
+      "discipline": "800m F",
+      "max_no_competitors": 14
+    },
+    {
+      "discipline": "800m M",
+      "max_no_competitors": 14
+    },
+    {
+      "discipline": "1500m F",
+      "max_no_competitors": 16
+    },
+    {
+      "discipline": "1500m M",
+      "max_no_competitors": 16
+    },
+    {
+      "discipline": "100mh F",
+      "max_no_competitors": 8
+    },
+    {
+      "discipline": "110mh M",
+      "max_no_competitors": 8
+    },
+    {
+      "discipline": "400mh F",
+      "max_no_competitors": 8
+    },
+    {
+      "discipline": "3000msc F",
+      "max_no_competitors": 16
+    },
+    {
+      "discipline": "3000msc M",
+      "max_no_competitors": 16
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "66169321f5eb4896aa16c9b7"
+  },
+  "name": "PZLA Mistrzostwa Polski U20 i U23 w biegu na 5000 metrow 2024",
+  "date": {
+    "$date": "2024-06-01T18:00:00.000Z"
+  },
+  "competitions": [
+    {
+      "discipline": "5000m F",
+      "max_no_competitors": 32
+    },
+    {
+      "discipline": "5000m M",
+      "max_no_competitors": 32
+    }
+  ],
+  "city": "Ciechanow"
+}]
