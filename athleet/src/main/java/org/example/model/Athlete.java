@@ -103,7 +103,7 @@ public class Athlete {
          * Function assign category to athlete depending on its birthdate.
          */
         Date currentDate = new Date();
-        int differenceInYears = birthDate.getYear() - currentDate.getYear();
+        int differenceInYears = currentDate.getYear() - birthDate.getYear();
         if (differenceInYears < 16)
             return "Youngster";
         if (differenceInYears < 18)

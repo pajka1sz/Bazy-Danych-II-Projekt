@@ -1,6 +1,5 @@
 package org.example.crud;
 
-import org.example.Main;
 import org.example.model.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,7 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 public class CrudCreate {
-    private EntityManager entityManager = Main.entityManager;
+    private EntityManager entityManager;
+
+    public CrudCreate(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     @Transactional
     public Athlete createAthlete(@NotNull String firstname, @NotNull String lastname, @NotNull Date birthDate, @NotNull String gender,
@@ -22,7 +25,11 @@ public class CrudCreate {
          */
         Athlete athlete = new Athlete(firstname, lastname, birthDate, gender, nationality, club, specialities, personalRecordsOutdoor,
                 personalRecordsShortTrack, coach);
+        coach.addAthlete(athlete);
+        entityManager.getTransaction().begin();
         entityManager.persist(athlete);
+        entityManager.merge(coach);
+        entityManager.getTransaction().commit();
         return athlete;
     }
 
@@ -33,7 +40,9 @@ public class CrudCreate {
          * Creates coach and returns it.
          */
         Coach coach = new Coach(firstname, lastname, nationality, club, coaching, athletes);
+        entityManager.getTransaction().begin();
         entityManager.persist(coach);
+        entityManager.getTransaction().commit();
         return coach;
     }
 
@@ -43,13 +52,15 @@ public class CrudCreate {
          * Creates meeting and returns it.
          */
         Meeting meeting = new Meeting(name, city, date, competitions);
+        entityManager.getTransaction().begin();
         entityManager.persist(meeting);
+        entityManager.getTransaction().commit();
         return meeting;
     }
 
     @Transactional
     public Report createReport(@NotNull Meeting meeting, @NotNull Athlete athlete, @NotNull Coach coach, @NotNull String discipline,
-                               @NotNull String status) {
+                               @NotNull boolean isConfirmed) {
         /**
          * Returns report if it is possible to create, that is:
          * * status of the report is reported or confirmed (it cannot be cancelled right on the start),
@@ -57,14 +68,6 @@ public class CrudCreate {
          * * there is a place for an athlete in the competition
          *   (that is there are less than max_no_competitors athletes reported or confirmed).
          */
-        if (status.equals("cancelled")) {
-            System.out.println("You cannot create cancelled report!");
-            return null;
-        }
-        if (!status.equals("reported") && !status.equals("confirmed")) {
-            System.out.println("It is not a valid status! Available values are: reported, confirmed, cancelled.");
-            return null;
-        }
         if (!compareGenderAndCompetition(athlete, discipline)) {
             System.out.println("You cannot assign an athlete to discipline specified for another gender!");
             return null;
@@ -83,8 +86,10 @@ public class CrudCreate {
             System.out.println("There are no places left for this competition!");
             return null;
         }
-        Report report = new Report(meeting, athlete, coach, discipline, status, new Date());
+        Report report = new Report(meeting, athlete, coach, discipline, isConfirmed, new Date());
+        entityManager.getTransaction().begin();
         entityManager.persist(report);
+        entityManager.getTransaction().commit();
         return report;
     }
 
@@ -94,7 +99,9 @@ public class CrudCreate {
          * Creates competition and returns it. .
          */
         Competition competition = new Competition(discipline, max_no_competitors);
+        entityManager.getTransaction().begin();
         entityManager.persist(competition);
+        entityManager.getTransaction().commit();
         return competition;
     }
 

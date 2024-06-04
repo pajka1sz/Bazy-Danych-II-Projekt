@@ -3,6 +3,7 @@ package org.example.model;
 import lombok.Getter;
 import lombok.Setter;
 import org.bson.types.ObjectId;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name = "Zawody")
 public class Meeting {
     @Getter
     @Id
@@ -25,8 +27,7 @@ public class Meeting {
     private Date date;
     @Getter
     @Setter
-    @Embedded
-    @OneToMany
+    @ElementCollection
     private List<Competition> competitions;
 
     public Meeting() {
@@ -41,11 +42,32 @@ public class Meeting {
         this.competitions = competitions == null ? new ArrayList<>() : competitions;
     }
 
-    public void addCompetition(Competition competition) {
+    public void addCompetition(@NotNull Competition competition) {
         this.competitions.add(competition);
     }
 
-    public void removeCompetition(Competition competition) {
+    public void removeCompetition(@NotNull Competition competition) {
         this.competitions.remove(competition);
+    }
+
+    @Override
+    public String toString() {
+        return "Meeting{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", city='" + city + '\'' +
+                ", date=" + date +
+                ", competitions=" + competitionsToString() +
+                '}';
+    }
+
+    private String competitionsToString() {
+        if (competitions == null)
+            return "{}";
+        String result = "";
+        for (Competition competition: competitions) {
+            result += "{" + competition.toString() + "}, ";
+        }
+        return result;
     }
 }
