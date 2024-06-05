@@ -1,0 +1,105 @@
+[{
+  "_id": {
+    "$oid": "66606b80bf0762225c21e45b"
+  },
+  "max_no_competitors": 8,
+  "discipline": "100m W"
+},
+{
+  "_id": {
+    "$oid": "66606b80bf0762225c21e45c"
+  },
+  "max_no_competitors": 8,
+  "discipline": "100m M"
+},
+{
+  "_id": {
+    "$oid": "66606b80bf0762225c21e45d"
+  },
+  "max_no_competitors": 8,
+  "discipline": "200m W"
+},
+{
+  "_id": {
+    "$oid": "66606b80bf0762225c21e45e"
+  },
+  "max_no_competitors": 8,
+  "discipline": "200m M"
+},
+{
+  "_id": {
+    "$oid": "66606b80bf0762225c21e45f"
+  },
+  "max_no_competitors": 14,
+  "discipline": "800m W"
+},
+{
+  "_id": {
+    "$oid": "66606b80bf0762225c21e460"
+  },
+  "max_no_competitors": 14,
+  "discipline": "800m M"
+},
+{
+  "_id": {
+    "$oid": "66606b80bf0762225c21e461"
+  },
+  "max_no_competitors": 16,
+  "discipline": "1500m W"
+},
+{
+  "_id": {
+    "$oid": "66606b80bf0762225c21e462"
+  },
+  "max_no_competitors": 16,
+  "discipline": "1500m M"
+},
+{
+  "_id": {
+    "$oid": "66606b80bf0762225c21e463"
+  },
+  "max_no_competitors": 8,
+  "discipline": "100mh W"
+},
+{
+  "_id": {
+    "$oid": "66606b80bf0762225c21e464"
+  },
+  "max_no_competitors": 8,
+  "discipline": "110mh M"
+},
+{
+  "_id": {
+    "$oid": "66606b80bf0762225c21e465"
+  },
+  "max_no_competitors": 8,
+  "discipline": "400mh W"
+},
+{
+  "_id": {
+    "$oid": "66606b80bf0762225c21e466"
+  },
+  "max_no_competitors": 16,
+  "discipline": "3000msc W"
+},
+{
+  "_id": {
+    "$oid": "66606b80bf0762225c21e467"
+  },
+  "max_no_competitors": 16,
+  "discipline": "3000msc M"
+},
+{
+  "_id": {
+    "$oid": "66607275bf076238b4185d0e"
+  },
+  "max_no_competitors": 32,
+  "discipline": "5000m W"
+},
+{
+  "_id": {
+    "$oid": "66607275bf076238b4185d0f"
+  },
+  "max_no_competitors": 32,
+  "discipline": "5000m M"
+}]

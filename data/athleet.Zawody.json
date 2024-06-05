@@ -1,84 +1,117 @@
 [{
   "_id": {
-    "$oid": "66169321f5eb4896aa16c9b6"
+    "$oid": "66606b80bf0762225c21e468"
   },
-  "name": "70. ORLEN Memorial Janusza Kusocinskiego",
-  "city": "Chorzow",
   "date": {
-    "$date": "2024-05-18T17:00:00.000Z"
+    "$date": "2024-06-17T22:00:00.000Z"
   },
+  "city": "Chorzow",
+  "name": "70. ORLEN Memorial Janusza Kusocinskiego",
   "competitions": [
     {
-      "discipline": "100m F",
-      "max_no_competitors": 8
+      "$oid": "66606b80bf0762225c21e45b"
     },
     {
-      "discipline": "100m M",
-      "max_no_competitors": 8
+      "$oid": "66606b80bf0762225c21e45c"
     },
     {
-      "discipline": "200m F",
-      "max_no_competitors": 8
+      "$oid": "66606b80bf0762225c21e45d"
     },
     {
-      "discipline": "200m M",
-      "max_no_competitors": 8
+      "$oid": "66606b80bf0762225c21e45e"
     },
     {
-      "discipline": "800m F",
-      "max_no_competitors": 14
+      "$oid": "66606b80bf0762225c21e460"
     },
     {
-      "discipline": "800m M",
-      "max_no_competitors": 14
+      "$oid": "66606b80bf0762225c21e461"
     },
     {
-      "discipline": "1500m F",
-      "max_no_competitors": 16
+      "$oid": "66606b80bf0762225c21e462"
     },
     {
-      "discipline": "1500m M",
-      "max_no_competitors": 16
+      "$oid": "66606b80bf0762225c21e463"
     },
     {
-      "discipline": "100mh F",
-      "max_no_competitors": 8
+      "$oid": "66606b80bf0762225c21e464"
     },
     {
-      "discipline": "110mh M",
-      "max_no_competitors": 8
+      "$oid": "66606b80bf0762225c21e465"
     },
     {
-      "discipline": "400mh F",
-      "max_no_competitors": 8
+      "$oid": "66606b80bf0762225c21e466"
     },
     {
-      "discipline": "3000msc F",
-      "max_no_competitors": 16
-    },
-    {
-      "discipline": "3000msc M",
-      "max_no_competitors": 16
+      "$oid": "66606b80bf0762225c21e467"
     }
   ]
 },
 {
   "_id": {
-    "$oid": "66169321f5eb4896aa16c9b7"
+    "$oid": "66606c17bf07623408ae1aa9"
   },
-  "name": "PZLA Mistrzostwa Polski U20 i U23 w biegu na 5000 metrow 2024",
   "date": {
-    "$date": "2024-06-01T18:00:00.000Z"
+    "$date": "2023-06-03T22:00:00.000Z"
   },
+  "city": "Chorzow",
+  "name": "69. ORLEN Memorial Janusza Kusocinskiego",
   "competitions": [
     {
-      "discipline": "5000m F",
-      "max_no_competitors": 32
+      "$oid": "66606b80bf0762225c21e45b"
     },
     {
-      "discipline": "5000m M",
-      "max_no_competitors": 32
+      "$oid": "66606b80bf0762225c21e45c"
+    },
+    {
+      "$oid": "66606b80bf0762225c21e45d"
+    },
+    {
+      "$oid": "66606b80bf0762225c21e45e"
+    },
+    {
+      "$oid": "66606b80bf0762225c21e45f"
+    },
+    {
+      "$oid": "66606b80bf0762225c21e460"
+    },
+    {
+      "$oid": "66606b80bf0762225c21e461"
+    },
+    {
+      "$oid": "66606b80bf0762225c21e462"
+    },
+    {
+      "$oid": "66606b80bf0762225c21e463"
+    },
+    {
+      "$oid": "66606b80bf0762225c21e464"
+    },
+    {
+      "$oid": "66606b80bf0762225c21e465"
+    },
+    {
+      "$oid": "66606b80bf0762225c21e466"
+    },
+    {
+      "$oid": "66606b80bf0762225c21e467"
     }
-  ],
-  "city": "Ciechanow"
+  ]
+},
+{
+  "_id": {
+    "$oid": "66607275bf076238b4185d10"
+  },
+  "date": {
+    "$date": "2024-06-07T22:00:00.000Z"
+  },
+  "city": "Ciechanow",
+  "name": "PZLA Mistrzostwa Polski U20 i U23 w biegu na 5000 metrow 2024",
+  "competitions": [
+    {
+      "$oid": "66607275bf076238b4185d0e"
+    },
+    {
+      "$oid": "66607275bf076238b4185d0f"
+    }
+  ]
 }]
