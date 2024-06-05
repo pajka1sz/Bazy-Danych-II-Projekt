@@ -3,11 +3,12 @@
 ### Wstęp  
 System pozwala na zgłaszanie zawodników na zawody lekkoatletyczne przez trenerów. Każdy trener może zgłaszać swoich zawodników na dostępne mityngi lekkoatletyczne i potwierdzać, bądź anulować te zgłoszenia.  
 ### Struktura bazy danych  
-Baza danych jest bazą MongoDB, która składa się z czterech kolekcji:
+Baza danych jest bazą MongoDB, która składa się z pięciu kolekcji:
 * Zawodnicy
 * Trenerzy
 * Zawody
-* Zgloszenia  
+* Zgloszenia
+* Competition  
 
 Omówimy po kolei każdą z nich.  
 #### Kolekcja Zawodnicy  
@@ -17,20 +18,20 @@ Przechowuje dane osobowe zawodników oraz ich dane dotyczące wyników: rekordy 
     _id: ObjectId('6616713e2213e76670b2a77f'),
     firstname: 'Noah',
     lastname: 'Lyles',
-    birth_date: ISODate('1997-07-18T00:00:00.000Z'),
+    birthDate: ISODate('1997-07-18T00:00:00.000Z'),
     gender: 'male',
     nationality: 'United States',
     category: 'Senior',
     specialities: [
         '60m', '100m', '200m', '4x100m'
     ],
-    personal_records_short_track: {
+    personalRecordsShortTrack: {
         '60m': 6.43,
         '200m': 20.63,
         '300m': 31.87,
         '4x400m': 182.6
     },
-    personal_records_outdoor: {
+    personalRecordsOutdoor: {
         '100m': 9.83,
         '200m': 19.31,
         '400m': 47.04,
@@ -41,7 +42,7 @@ Przechowuje dane osobowe zawodników oraz ich dane dotyczące wyników: rekordy 
 ```
 Jak widać dokument przechowuje takie dane:  
 * imię i nazwisko zawodnika - *firstname* i *lastname* (String)  
-* datę urodzenia - *birth_date* (Date)  
+* datę urodzenia - *birthDate* (Date)  
 * płeć - *gender* (String)  
 * kraj pochodzenia - *nationality* (String)  
 * kategorię wiekową - *category* (String)  
@@ -62,6 +63,10 @@ Zawiera dane dotyczące trenerów - osobowe i te dotyczące dyscyplin, które tr
     club: 'CWKS Resovia Rzeszow',
     coaching: [
         'sprints', 'hurdles'
+    ],
+    athletes: [
+        ObjectId('665e486365b83e53b4a75047'),
+        ObjectId('665e64e465b83e5b10fce845')
     ]
 }
 ```
@@ -70,29 +75,29 @@ Kolejne pozycje odpowiadają za:
 * narodowość - *nationality* (String)  
 * klub, do którego należy - *club* (String)  
 * dyscypliny, które trenuje - lista *coaching* (lista String)  
+* zawodników, których trener ma pod swoją opieką - lista *athletes* (lista ObjectId)  
 
 #### Kolekcja Zawody  
 Odpowiada za przechowywanie informacji o zawodach - o tym kiedy się odbywają, gdzie i jakich konkurencji można się na nich spodziewać. Jeden z jej dokumentów wygląda następująco:  
 ```js
 {
-    _id: ObjectId('66169321f5eb4896aa16c9b6'),
-    name: '70. ORLEN Memorial Janusza Kusocinskiego',
+    _id: ObjectId('66606b80bf0762225c21e468'),
+    date: ISODate('2024-06-17T22:00:00.000Z'),
     city: 'Chorzow',
-    date: ISODate('2024-05-18T17:00:00.000Z'),
+    name: '70. ORLEN Memorial Janusza Kusocinskiego',
     competitions: [
-      { discipline: '100m F', max_no_competitors: 8 },
-      { discipline: '100m M', max_no_competitors: 8 },
-      { discipline: '200m F', max_no_competitors: 8 },
-      { discipline: '200m M', max_no_competitors: 8 },
-      { discipline: '800m F', max_no_competitors: 14 },
-      { discipline: '800m M', max_no_competitors: 14 },
-      { discipline: '1500m F', max_no_competitors: 16 },
-      { discipline: '1500m M', max_no_competitors: 16 },
-      { discipline: '100mh F', max_no_competitors: 8 },
-      { discipline: '110mh M', max_no_competitors: 8 },
-      { discipline: '400mh F', max_no_competitors: 8 },
-      { discipline: '3000msc F', max_no_competitors: 16 },
-      { discipline: '3000msc M', max_no_competitors: 16 }
+        ObjectId('66606b80bf0762225c21e45b'),
+        ObjectId('66606b80bf0762225c21e45c'),
+        ObjectId('66606b80bf0762225c21e45d'),
+        ObjectId('66606b80bf0762225c21e45e'),
+        ObjectId('66606b80bf0762225c21e460'),
+        ObjectId('66606b80bf0762225c21e461'),
+        ObjectId('66606b80bf0762225c21e462'),
+        ObjectId('66606b80bf0762225c21e463'),
+        ObjectId('66606b80bf0762225c21e464'),
+        ObjectId('66606b80bf0762225c21e465'),
+        ObjectId('66606b80bf0762225c21e466'),
+        ObjectId('66606b80bf0762225c21e467')
     ]
   }
 ```
@@ -100,9 +105,7 @@ Pola oznaczają:
 * nazwę zawodów - *name* (String)  
 * miasto, w którym się odbywają - *city* (String)  
 * datę - *date* (Date)  
-* listę konkurencji, które mają się odbyć w ramach tych zawodów - *competitions* (obiekt), która zawiera:
-    * nazwy dyscyplin - *discipline* (String)  
-    * maksymalną liczbę zawodników w danej dyscyplinie - *max_no_competitors* (Integer)  
+* listę konkurencji, które mają się odbyć w ramach tych zawodów - *competitions* (obiekt), która zawiera identyfikatory konkurencji (ObjectId) zawartych w kolekcji *Competition*  
 
 #### Kolekcja Zgloszenia  
 Jest to kolekcja przechowująca dokumenty zawierające najmniejszą liczbę danych, ale jakże ważnych - dotyczących zgłoszeń zawodników na zawody. Przykładowy dokument tej bazy wygląda następująco:  
@@ -121,6 +124,19 @@ Kolejne pola oznaczają:
 * dyscyplinę, do której zawodnik jest zgłoszony - *discipline* (String)
 * status zgłoszenia - *status* (String) - przyjmuje jedną z trzech wartości: *reported* - zgłoszony, *confirmed* - potwierdzony lub *cancelled* - anulowany.
 
+#### Kolekcja Competition  
+Przechowuje konkurencje dostępne we wszystkich wprowadzonych mityngach. Przykładowy dokument:  
+```js
+{
+    _id: ObjectId('66606b80bf0762225c21e45b'),
+    max_no_competitors: 8,
+    discipline: "100m W"
+}
+```
+Pola oznaczają:  
+* maksymalną liczbę osób, które można zgłosić do konkurencji - *max_no_competitors*
+* dyscyplinę - *discipline*  
+
 ### Klasy
 W bazie danych korzystając z technologii Hibernate stworzyliśmy kilka klas odpowiadających między innymi wyżej wymienionym kolekcjom. Są to:
 
@@ -129,7 +145,7 @@ W bazie danych korzystając z technologii Hibernate stworzyliśmy kilka klas odp
   * Coach - odpowiadająca kolekcji *Trenerzy*
   * Meeting - odpowiadająca kolekcji *Zawody*
   * Report - odpowiadająca kolekcji *Zgloszenia*
-  * Competition
+  * Competition - odpowiadająca kolekcji *Competition*  
 * zapisane w folderze *example.crud* klasy odpowiadające poszczególnym operacjom CRUD zawartym w nazwie klasy:
   * CrudCreate
   * CrudRead
@@ -253,10 +269,10 @@ Korzystamy z pliku mavenowskiego `pom.xml` i pliku konfiguracyjnego `persistence
 </persistence>
 ```
 ### Struktura projektu
-![alt text](image-16.png)
+![alt text](Images/image-16.png)
 ### Połączenie bazy MongoDB z Hibernate
 Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliśmy z plików konfiguracyjnych przedstawionych powyżej oraz z możliwości użycia bazy zapisanej w MongoDB w IntelliJ przedstawionej poniżej.
-![alt-text](imagee.png)
+![alt-text](Images/imagee.png)
 
 ### Opis klas
 1. Klasa *Athlete* - zawiera informacje na temat zawodnika. Każde pole tej klasy jest prywatne i ma automatycznie generowane gettery i settery (oprócz `Id`, które ma tylko getter), oznaczone przez
@@ -356,7 +372,9 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
 
         }
 
-        public Athlete(String firstname, String lastname, Date birthDate, String gender, String nationality, String club, List<String> specialities, Map<String, Double> personalRecordsOutdoor, Map<String, Double> personalRecordsShortTrack, Coach coach) {
+        public Athlete(String firstname, String lastname, Date birthDate, String gender, String nationality,
+                        String club, List<String> specialities, Map<String, Double> personalRecordsOutdoor,
+                        Map<String, Double> personalRecordsShortTrack, Coach coach) {
             this.id = new ObjectId();
             this.firstname = firstname;
             this.lastname = lastname;
@@ -366,8 +384,10 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
             this.category = convertBirthDateToCategory(birthDate);
             this.club = club;
             this.specialities = specialities == null ? new ArrayList<>() : specialities;
-            this.personalRecordsOutdoor = personalRecordsOutdoor == null ? new HashMap<>() : personalRecordsOutdoor;
-            this.personalRecordsShortTrack = personalRecordsShortTrack == null ? new HashMap<>() : personalRecordsShortTrack;
+            this.personalRecordsOutdoor = personalRecordsOutdoor == null ?
+                new HashMap<>() : personalRecordsOutdoor;
+            this.personalRecordsShortTrack = personalRecordsShortTrack == null ?
+                new HashMap<>() : personalRecordsShortTrack;
             this.coach = coach;
         }
 
@@ -378,6 +398,16 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
             this.gender = gender;
             this.nationality = nationality;
             this.coach = coach;
+        }
+
+        private String personalRecordsShortTrackToString() {
+            if (personalRecordsShortTrack == null)
+                return "{}";
+            String result = "{";
+            for (String discipline: personalRecordsShortTrack.keySet())
+                result += discipline + ": " + personalRecordsShortTrack.get(discipline) + ", ";
+            result += "}";
+            return result;
         }
 
         private String personalRecordsOutdoorToString() {
@@ -414,22 +444,23 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
                     "id=" + id +
                     ", firstname='" + firstname + '\'' +
                     ", lastname='" + lastname + '\'' +
-                    ", birth_date=" + birthDate +
+                    ", birthDate=" + birthDate +
                     ", gender='" + gender + '\'' +
                     ", nationality='" + nationality + '\'' +
                     ", category='" + category + '\'' +
                     ", club='" + club + '\'' +
                     ", specialities=" + specialities +
                     ", personalRecordsOutdoor=" + this.personalRecordsOutdoorToString() +
-                    ", personalRecordsShortTrack=" + personalRecordsShortTrack +
+                    ", personalRecordsShortTrack=" + thhis.personalRecordsShortTrackToString() +
                     ", coach=" + coach.toStringWithoutAthletes() +
                     '}';
         }
     }
     ```
-    Funkcja `personalRecordsOutdoorToString()` służy do wypisania na konsolę rekordów życiowych zawodnika osiąganych na stadionie.  
+    Funkcja `personalRecordsOutdoorToString()` służy do wypisania na konsolę rekordów życiowych zawodnika osiąganych na stadionie.
+    Funkcja `personalRecordsShortTrackToString()` służy do wypisania na konsolę rekordów życiowych zawodnika osiąganych na krótkim torze (z reguły w hali).  
     Funkcja `convertBirthDateToCategory(Date birthDate)` służy do przypisania odpowiedniej kategorii zawodnikowi bazując na jego dacie urodzenia.
-2. Klasa *Coach* - zawiera informacje na temat trenera. Każde pole tej klasy jest prywatne i ma automatycznie generowane gettery i settery (oprócz `Id`, które ma tylko getter), oznaczone przez
+3. Klasa *Coach* - zawiera informacje na temat trenera. Każde pole tej klasy jest prywatne i ma automatycznie generowane gettery i settery (oprócz `Id`, które ma tylko getter), oznaczone przez
     ```java
     @Getter
     @Setter
@@ -486,7 +517,8 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
 
         }
 
-        public Coach(String firstname, String lastname, String nationality, String club, List<String> coaching, List<Athlete> athletes) {
+        public Coach(String firstname, String lastname, String nationality, String club, List<String> coaching,
+                    List<Athlete> athletes) {
             this.id = new ObjectId();
             this.firstname = firstname;
             this.lastname = lastname;
@@ -526,7 +558,7 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
     }
     ```
     Funkcja `addAthlete(Athlete athlete)` służy do dodawania zawodnika do listy zawodników trenowanych przez trenera.
-3. Klasa *Meeting* - zawiera informacje na temat mityngu (zawodów). Każde pole tej klasy jest prywatne i ma automatycznie generowane gettery i settery (oprócz `Id`, które ma tylko getter), oznaczone przez
+4. Klasa *Meeting* - zawiera informacje na temat mityngu (zawodów). Każde pole tej klasy jest prywatne i ma automatycznie generowane gettery i settery (oprócz `Id`, które ma tylko getter), oznaczone przez
     ```java
     @Getter
     @Setter
@@ -568,8 +600,8 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
         private Date date;
         @Getter
         @Setter
-        @ElementCollection
-        private List<Competition> competitions;
+        @OneToMany
+        private List<Competition> competitions = new ArrayList<>();
 
         public Meeting() {
 
@@ -615,7 +647,7 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
     ```
     Funkcja `addCompetition(Competition competition)` służy do dodania konkurencji do listy konkurencji odbywających się na zawodach.
     Funkcja `removeCompetition(Competition competition)` służy do usunięcia konkurencji z listy konkurencji.
-4. Klasa wbudowana *Competition* - zawiera informacje na temat konkurencji. Każde pole tej klasy jest prywatne i ma automatycznie generowane gettery i settery (oprócz `Id`, które ma tylko getter), oznaczone przez
+5. Klasa wbudowana *Competition* - zawiera informacje na temat konkurencji. Każde pole tej klasy jest prywatne i ma automatycznie generowane gettery i settery (oprócz `Id`, które ma tylko getter), oznaczone przez
     ```java
     @Getter
     @Setter
@@ -666,7 +698,7 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
         }
     }
     ```
-5. Klasa *Report* - zawiera informacje na temat zgłoszeń zawodników do zawodów. Każde pole tej klasy jest prywatne i ma automatycznie generowane gettery i settery (oprócz `Id`, które ma tylko getter), oznaczone przez
+6. Klasa *Report* - zawiera informacje na temat zgłoszeń zawodników do zawodów. Każde pole tej klasy jest prywatne i ma automatycznie generowane gettery i settery (oprócz `Id`, które ma tylko getter), oznaczone przez
     ```java
     @Getter
     @Setter
@@ -728,7 +760,8 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
 
         }
 
-        public Report(Meeting meeting, Athlete athlete, Coach coach, String discipline, boolean isConfirmed, Date date) {
+        public Report(Meeting meeting, Athlete athlete, Coach coach, String discipline, boolean isConfirmed, Date date)
+        {
             this.id = new ObjectId();
             this.meeting = meeting;
             this.athlete = athlete;
@@ -739,7 +772,7 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
         }
     }
     ```
-6. Klasa *HibernateUtil* - jest klasą pomocniczą do klasy *Main*, a jej implementacja wygląda następująco:
+7. Klasa *HibernateUtil* - jest klasą pomocniczą do klasy *Main*, a jej implementacja wygląda następująco:
    ```java
    package org.example;
 
@@ -764,7 +797,7 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
         }
     }
    ```
-7. Klasa *Main* - jest klasą wykonywalną, której implementacja zmienia się w zależności, jakie operacje chcemy przeprowadzić na bazie danych, ale z grubsza wygląda tak:
+8. Klasa *Main* - jest klasą wykonywalną, której implementacja zmienia się w zależności, jakie operacje chcemy przeprowadzić na bazie danych, ale z grubsza wygląda tak:
    ```java
    package org.example;
 
@@ -774,6 +807,7 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
 
     import javax.persistence.EntityManager;
     import javax.persistence.EntityManagerFactory;
+    import javax.persistence.NoResultException;
     import java.util.Calendar;
     import java.util.Date;
     import java.util.List;
@@ -792,14 +826,103 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
 
             HibernateUtil.shutdown();
         }
+
+       private static Athlete getAthlete(EntityManager entityManager, String firstname, String lastname)
+       {
+            Athlete athlete = null;
+            try {
+                athlete = (Athlete) entityManager.createQuery(
+                                "FROM Athlete a WHERE a.firstname = :firstname AND " +
+                                "a.lastname = :lastname")
+                        .setParameter("firstname", firstname)
+                        .setParameter("lastname", lastname)
+                        .getSingleResult();
+            } catch (NoResultException ignored) {
+    
+            }
+            return athlete;
+        }
+    
+        private static Meeting getMeeting(EntityManager entityManager, String meetingName) {
+            Meeting meeting = null;
+            try {
+                meeting = (Meeting) entityManager.createQuery(
+                                "FROM Meeting m WHERE m.name = :name")
+                        .setParameter("name", meetingName)
+                        .getSingleResult();
+            } catch (NoResultException ignored) {
+    
+            }
+            return meeting;
+        }
+    
+        private static Report getReport(EntityManager entityManager, Meeting meeting, Athlete athlete,
+                                        Coach coach, String discipline) {
+            Report result = null;
+            try {
+                result = (Report) entityManager.createQuery(
+                                "FROM Report r WHERE r.meeting = :meeting AND " +
+                                "r.athlete = :athlete AND " +
+                                "r.coach = :coach AND " +
+                                "r.discipline = :discipline")
+                        .setParameter("meeting", meeting)
+                        .setParameter("athlete", athlete)
+                        .setParameter("coach", coach)
+                        .setParameter("discipline", discipline)
+                        .getSingleResult();
+            } catch (NoResultException ignored) {
+    
+            }
+            return result;
+        }
+    
+        private static Coach getCoach(EntityManager entityManager, String firstname, String lastname) {
+            Coach coach = null;
+            try {
+                coach = (Coach) entityManager.createQuery(
+                                "FROM Coach c WHERE c.firstname = :firstname AND " +
+                                "c.lastname = :lastname")
+                        .setParameter("firstname", firstname)
+                        .setParameter("lastname", lastname)
+                        .getSingleResult();
+            } catch (NoResultException ignored) {
+    
+            }
+            return coach;
+        }
+    
+        private static Competition getCompetition(EntityManager entityManager, String discipline,
+                                                    int max_no_competitors) {
+            Competition competition = null;
+            try {
+                competition = (Competition) entityManager.createQuery(
+                        "FROM Competition c WHERE c.discipline = :discipline AND " +
+                        "c.max_no_competitors = :max_no_competitors")
+                        .setParameter("discipline", discipline)
+                        .setParameter("max_no_competitors", max_no_competitors)
+                        .getSingleResult();
+            } catch (NoResultException ignored) {
+    
+            }
+            return competition;
+        }
     }
    ```
+Funkcje *getAthlete*, *getCoach*, *getReport*, *getMeeting* oraz *getCompetition* są funkcjami pomocniczymi pozwalającymi na łatwe znalezienie konkretnego obiektu w bazie.  
 
 ### Operacje CRUD dostępne w bazie  
 
 #### Operacje Create - klasa *CrudCreate*  
 Sama klasa wygląda następująco:  
 ```java
+import org.jetbrains.annotations.NotNull;
+
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.transaction.Transactional;
+import java.util.Date;
+import java.util.List;
+
 public class CrudCreate {
     private EntityManager entityManager;
 
@@ -816,14 +939,16 @@ Przyjmuje ona w konstruktorze parametr *entityManager*, który jest głównym me
 1. Funkcja tworząca zawodnika - `createAthlete`:  
 ```java
 @Transactional
-public Athlete createAthlete(@NotNull String firstname, @NotNull String lastname, @NotNull Date birthDate, @NotNull String gender,
-                            String nationality, String club, List<String> specialities, Map<String, Double> personalRecordsOutdoor,
+public Athlete createAthlete(@NotNull String firstname, @NotNull String lastname, @NotNull Date birthDate,
+                            @NotNull String gender, String nationality, String club,
+                            List<String> specialities, Map<String, Double> personalRecordsOutdoor,
                             Map<String, Double> personalRecordsShortTrack, @NotNull Coach coach) {
     /**
      * Creates athlete and returns it.
      */
-    Athlete athlete = new Athlete(firstname, lastname, birthDate, gender, nationality, club, specialities, personalRecordsOutdoor,
-            personalRecordsShortTrack, coach);
+    Athlete athlete = new Athlete(firstname, lastname, birthDate, gender, nationality, club,
+                                    specialities, personalRecordsOutdoor,
+                                    personalRecordsShortTrack, coach);
     entityManager.getTransaction().begin();
     entityManager.persist(athlete);
     entityManager.getTransaction().commit();
@@ -850,34 +975,94 @@ System.out.println(coach.toString());
 ```
 otrzymamy takie wyniki:  
 
-![alt text](image.png)  
+![alt text](Images/image.png)  
 
 Obiekt `foundAthlete` to nic innego jak utworzony zawodnik. Operacja dostarczająca dane do tej zmiennej potwierdza tylko fakt, iż zawodnik został dodany do bazy, a zapewniają to komendy `entityManager.getTransaction().begin()`, która 'otwiera' transakcję, oraz `entityManager.getTransaction().commit()` aktualizująca bazę danych. Bez tych komend obiekt zostanie utworzony i znaleziony, ale nie zostanie zapisany na stałe do bazy (o czym przekonaliśmy się podczas próby usunięcia tych komend).  
 Jak widać przed utworzeniem zawodnika, lista zawodników trenera Janusza Mazurczaka była pusta, a po tej operacji dodał się nowy zawodnik. Może pokażemy to dokładniej:  
 ```js
 Coach before creating an athlete:
-Coach{id=6616888e2213e76670b2a791, firstname='Janusz', lastname='Mazurczak', nationality='Poland', club='CWKS Resovia Rzeszow', coaching=[sprints, hurdles], athletes=[]}
+Coach {
+    id=6616888e2213e76670b2a791, firstname='Janusz', lastname='Mazurczak', nationality='Poland',
+    club='CWKS Resovia Rzeszow', coaching=[sprints, hurdles], athletes=[]
+}
 
 Found created athlete and coach after adding an athlete:
-Athlete{id=665e486365b83e53b4a75047, firstname='Wieslaw', lastname='Przystojny', birth_date=Fri Dec 12 00:00:00 CET 1975, gender='male', nationality='Poland', category='Senior', club='SKLA Sopot', specialities=[], personalRecordsOutdoor={}, personalRecordsShortTrack={}, coach=Coach{id=6616888e2213e76670b2a791, firstname='Janusz', lastname='Mazurczak', nationality='Poland', club='CWKS Resovia Rzeszow', coaching=[sprints, hurdles]}}
+Athlete {
+    id=665e486365b83e53b4a75047, firstname='Wieslaw', lastname='Przystojny',
+    birthDate=Fri Dec 12 00:00:00 CET 1975, gender='male', nationality='Poland',
+    category='Senior', club='SKLA Sopot', specialities=[], personalRecordsOutdoor={},
+    personalRecordsShortTrack={},
+    coach=Coach {
+        id=6616888e2213e76670b2a791, firstname='Janusz', lastname='Mazurczak', nationality='Poland',
+        club='CWKS Resovia Rzeszow', coaching=[sprints, hurdles]
+    }
+}
 
-Coach{id=6616888e2213e76670b2a791, firstname='Janusz', lastname='Mazurczak', nationality='Poland', club='CWKS Resovia Rzeszow', coaching=[sprints, hurdles], athletes=[Athlete{id=665e486365b83e53b4a75047, firstname='Wieslaw', lastname='Przystojny', birth_date=Fri Dec 12 00:00:00 CET 1975, gender='male', nationality='Poland', category='Senior', club='SKLA Sopot', specialities=[], personalRecordsOutdoor={}, personalRecordsShortTrack={}, coach=Coach{id=6616888e2213e76670b2a791, firstname='Janusz', lastname='Mazurczak', nationality='Poland', club='CWKS Resovia Rzeszow', coaching=[sprints, hurdles]}}]}
+Coach {
+    id=6616888e2213e76670b2a791, firstname='Janusz', lastname='Mazurczak', nationality='Poland',
+    club='CWKS Resovia Rzeszow', coaching=[sprints, hurdles],
+    athletes=[
+        Athlete{
+            id=665e486365b83e53b4a75047, firstname='Wieslaw', lastname='Przystojny',
+            birthDate=Fri Dec 12 00:00:00 CET 1975, gender='male', nationality='Poland',
+            category='Senior', club='SKLA Sopot', specialities=[], personalRecordsOutdoor={},
+            personalRecordsShortTrack={},
+            coach=Coach{
+                id=6616888e2213e76670b2a791, firstname='Janusz', lastname='Mazurczak',
+                nationality='Poland', club='CWKS Resovia Rzeszow', coaching=[sprints, hurdles]
+            }
+        }
+    ]
+}
 ```
 Drugi przykład dodania zawodnika (pominąłem większość danych w wypisywaniu danych o zwodnikach trenera):  
 ```js
 Coach before creating an athlete:
-Coach{id=6616888e2213e76670b2a791, firstname='Janusz', lastname='Mazurczak', nationality='Poland', club='CWKS Resovia Rzeszow', coaching=[sprints, hurdles], athletes=[Athlete{id=665e486365b83e53b4a75047, firstname='Wieslaw', lastname='Przystojny', /* Pozostałe dane zawodnika */}]}
-Found created athlete and coach after adding an athlete:
-Athlete{id=665e4ab065b83e4ebc9324cd, firstname='Oliwer', lastname='Wowik', birth_date=Sun Nov 10 00:00:00 CET 2002, gender='male', nationality='Poland', category='Youth', club='CWKS Resovia Rzeszow', specialities=[sprints], personalRecordsOutdoor={200m: 20.96, 100m: 10.23}, personalRecordsShortTrack={}, coach=Coach{id=6616888e2213e76670b2a791, firstname='Janusz', lastname='Mazurczak', nationality='Poland', club='CWKS Resovia Rzeszow', coaching=[sprints, hurdles]}}
+Coach{
+    id=6616888e2213e76670b2a791, firstname='Janusz', lastname='Mazurczak', nationality='Poland',
+    club='CWKS Resovia Rzeszow', coaching=[sprints, hurdles],
+    athletes=[
+        Athlete{
+            id=665e486365b83e53b4a75047, firstname='Wieslaw', lastname='Przystojny',
+            /* Pozostałe dane zawodnika */
+        }
+    ]
+}
 
-Coach{id=6616888e2213e76670b2a791, firstname='Janusz', lastname='Mazurczak', nationality='Poland', club='CWKS Resovia Rzeszow', coaching=[sprints, hurdles], athletes=[Athlete{id=665e486365b83e53b4a75047, firstname='Wieslaw', lastname='Przystojny', /* Pozostałe dane zawodnika */}, Athlete{id=665e4ab065b83e4ebc9324cd, firstname='Oliwer', lastname='Wowik', /* Pozostałe dane zawodnika */}]}
+Found created athlete and coach after adding an athlete:
+Athlete{
+    id=665e4ab065b83e4ebc9324cd, firstname='Oliwer', lastname='Wowik',
+    birthDate=Sun Nov 10 00:00:00 CET 2002, gender='male', nationality='Poland', category='Youth',
+    club='CWKS Resovia Rzeszow', specialities=[sprints],
+    personalRecordsOutdoor={200m: 20.96, 100m: 10.23}, personalRecordsShortTrack={},
+    coach=Coach{
+        id=6616888e2213e76670b2a791, firstname='Janusz', lastname='Mazurczak', nationality='Poland',
+        club='CWKS Resovia Rzeszow', coaching=[sprints, hurdles]
+    }
+}
+
+Coach{
+    id=6616888e2213e76670b2a791, firstname='Janusz', lastname='Mazurczak', nationality='Poland',
+    club='CWKS Resovia Rzeszow', coaching=[sprints, hurdles],
+    athletes=[
+        Athlete{
+            id=665e486365b83e53b4a75047, firstname='Wieslaw', lastname='Przystojny',
+            /* Pozostałe dane zawodnika */
+        },
+        Athlete{
+            id=665e4ab065b83e4ebc9324cd, firstname='Oliwer', lastname='Wowik',
+            /* Pozostałe dane zawodnika */
+        }
+    ]
+}
 ```
 
 
 2. Funkcja tworząca trenera - `createCoach`:  
 ```java
 @Transactional
-public Coach createCoach(@NotNull String firstname, @NotNull String lastname, String nationality, @NotNull String club, List<String> coaching, List<Athlete> athletes) {
+public Coach createCoach(@NotNull String firstname, @NotNull String lastname, String nationality,
+                        @NotNull String club, List<String> coaching, List<Athlete> athletes) {
     /**
      * Creates coach and returns it.
      */
@@ -893,7 +1078,7 @@ Przykład:
 ```java
 CrudCreate crudCreate = new CrudCreate(entityManager);
 Coach coach = crudCreate.createCoach("Tomasz", "Saksa", "Poland", "AZS-AWF Gorzow Wielkopolski",
-                List.of("sprints", "jumps"), null);
+                                        List.of("sprints", "jumps"), null);
 
 Coach foundCoach = entityManager.find(Coach.class, coach.getId());
 System.out.println("New coach:");
@@ -901,17 +1086,30 @@ System.out.println(foundCoach.toString());
 ```
 Wynik:  
 
-![alt text](image-1.png)  
+![alt text](Images/image-1.png)  
 
 Jak widać trener został dodany do bazy danych.  
 
 3. Funkcja tworząca zawody - `createMeeting`:  
 ```java
-public Meeting createMeeting(@NotNull String name, @NotNull String city, @NotNull Date date, List<Competition> competitions) {
+public Meeting createMeeting(@NotNull String name, @NotNull String city, @NotNull Date date,
+                            List<Competition> competitions) {
     /**
      * Creates meeting and returns it.
      */
+    List<Meeting> allMeetings = new CrudRead(entityManager).getAllMeetings();
+    for (Meeting meeting: allMeetings) {
+        if (meeting.getName().equals(name))
+            return meeting;
+    }
     Meeting meeting = new Meeting(name, city, date, competitions);
+    for (Competition competition : competitions) {
+        if (competition.getId() == null) {
+            entityManager.persist(competition);
+        } else {
+            entityManager.merge(competition);
+        }
+    }
     entityManager.getTransaction().begin();
     entityManager.persist(meeting);
     entityManager.getTransaction().commit();
@@ -922,9 +1120,12 @@ Jej zadaniem jest stworzenie nowych zawodów z daną listą konkurencji (*compet
 Przykładowe wywołanie:  
 ```java
 CrudCreate crudCreate = new CrudCreate(entityManager);
-System.out.println("Number of meetings before creating: " + entityManager.createQuery("FROM Meeting").getResultList().size());
+System.out.println("Number of meetings before creating: " +
+                    entityManager.createQuery("FROM Meeting").getResultList().size());
 
-Meeting meeting = crudCreate.createMeeting("20. Otwarte Mistrzostwa Przemysla", "Przemysl", new Date(124, Calendar.MAY, 18),
+Meeting meeting = crudCreate.createMeeting(
+                "20. Otwarte Mistrzostwa Przemysla", "Przemysl",
+                new Date(124, Calendar.MAY, 18),
                 List.of(crudCreate.createCompetition("100m M", 8),
                         crudCreate.createCompetition("100m W", 8),
                         crudCreate.createCompetition("200m M", 16),
@@ -932,39 +1133,68 @@ Meeting meeting = crudCreate.createMeeting("20. Otwarte Mistrzostwa Przemysla", 
                         crudCreate.createCompetition("Discus throw M", 8),
                         crudCreate.createCompetition("Discus throw W", 8),
                         crudCreate.createCompetition("800m M", 14),
-                        crudCreate.createCompetition("800m M", 14)));
+                        crudCreate.createCompetition("800m M", 14))
+);
 
 Meeting foundMeeting = entityManager.find(Meeting.class, meeting.getId());
 System.out.println("New meeting:");
 System.out.println(foundMeeting.toString());
-System.out.println("Number of meetings after creating: " + entityManager.createQuery("FROM Meeting").getResultList().size());
+System.out.println("Number of meetings after creating: " +
+                    entityManager.createQuery("FROM Meeting").getResultList().size());
 ```
 Wynik:  
 
-![alt text](image-2.png)  
+![alt text](Images/image-2.png)  
 
 Spróbujmy znaleźć ten mityng w nowym zapytaniu, aby potwierdzić obecność tego mityngu w bazie:  
 ```java
-List<Meeting> meetings = entityManager.createQuery("FROM Meeting m WHERE m.name = :name", Meeting.class)
+List<Meeting> meetings = entityManager.createQuery(
+                "FROM Meeting m WHERE m.name = :name", Meeting.class)
                 .setParameter("name", "20. Otwarte Mistrzostwa Przemysla").getResultList();
 System.out.println(meetings.size());
 System.out.println(meetings.get(0).toString());
 ```
 Wynik prezentuje się następująco:  
 
-![alt text](image-3.png)
+![alt text](Images/image-3.png)
 Dokładniej:  
 ```js
 1
-Meeting{id=665e57b765b83e5b5466a313, name='20. Otwarte Mistrzostwa Przemysla', city='Przemysl', date=2024-05-18 00:00:00.0, competitions={Competition{discipline='100m M', max_no_competitors=8}}, {Competition{discipline='100m W', max_no_competitors=8}}, {Competition{discipline='200m M', max_no_competitors=16}}, {Competition{discipline='200m W', max_no_competitors=16}}, {Competition{discipline='Discus throw M', max_no_competitors=8}}, {Competition{discipline='Discus throw W', max_no_competitors=8}}, {Competition{discipline='800m M', max_no_competitors=14}}, }
+Meeting{
+    id=665e57b765b83e5b5466a313, name='20. Otwarte Mistrzostwa Przemysla', city='Przemysl',
+    date=2024-05-18 00:00:00.0,
+    competitions={
+        Competition{
+            discipline='100m M', max_no_competitors=8
+        },
+        Competition{
+            discipline='100m W', max_no_competitors=8
+        },
+        Competition{
+            discipline='200m M', max_no_competitors=16
+        },
+        Competition{
+            discipline='200m W', max_no_competitors=16
+        },
+        Competition{
+            discipline='Discus throw M', max_no_competitors=8
+        },
+        Competition{
+            discipline='Discus throw W', max_no_competitors=8
+        },
+        Competition{
+            discipline='800m M', max_no_competitors=14
+        }
+    }
+}
 ```
 Można zauważyć, że konkurencja 800m M została dodana tylko raz, mimo że w liście występowała dwa razy - po prostu od razu zredukowała się redundantna kopia tej konkurencji.  
 
 4. Funkcja tworząca zgłoszenie - `createReport`  
 ```java
 @Transactional
-public Report createReport(@NotNull Meeting meeting, @NotNull Athlete athlete, @NotNull Coach coach, @NotNull String discipline,
-                           @NotNull boolean isConfirmed) {
+public Report createReport(@NotNull Meeting meeting, @NotNull Athlete athlete, @NotNull Coach coach,
+                            @NotNull String discipline, @NotNull boolean isConfirmed) {
     /**
      * Returns report if it is possible to create, that is:
      * * an athlete is being reported to the competition which is held for its gender,
@@ -976,6 +1206,16 @@ public Report createReport(@NotNull Meeting meeting, @NotNull Athlete athlete, @
         return null;
     }
     CrudRead crudRead = new CrudRead(entityManager);
+    List<Meeting> meetings = crudRead.getAllMeetings();
+    if (!meetings.contains(meeting)) {
+        System.out.println("There is no such meeting in the database!");
+        return null;
+    }
+    if (meeting.getDate().before(new Date())) {
+        System.out.println("You cannot report an athlete for this meeting," +
+                            "because this meeting has already taken place!");
+        return null;
+    }
     List<Competition> competitions = crudRead.getAllMeetingCompetitions(meeting);
     int max_no_participants = 0;
     for (Competition competition: competitions) {
@@ -988,10 +1228,28 @@ public Report createReport(@NotNull Meeting meeting, @NotNull Athlete athlete, @
         System.out.println("There is no such discipline in this meeting!");
         return null;
     }
-    if (crudRead.getReportsOfAllNotCancelledAthletesParticipatingInMeetingInDiscipline(meeting, discipline).size()
-            >= max_no_participants) {
+    if (crudRead.getReportsOfAllNotCancelledAthletesParticipatingInMeetingInDiscipline(
+            meeting, discipline
+        ).size() >= max_no_participants) {
         System.out.println("There are no places left for this competition!");
         return null;
+    }
+    Report check = null;
+    try {
+        check = (Report) entityManager.createQuery(
+                        "FROM Report r WHERE r.meeting = :meeting AND r.athlete = :athlete AND " +
+                        "r.coach = :coach AND r.discipline = :discipline")
+                .setParameter("meeting", meeting)
+                .setParameter("athlete", athlete)
+                .setParameter("coach", coach)
+                .setParameter("discipline", discipline)
+                .getSingleResult();
+    } catch (NoResultException ignored) {
+
+    }
+    if (check != null) {
+        System.out.println("The report of this athlete to this competition already exists!");
+        return check;
     }
     Report report = new Report(meeting, athlete, coach, discipline, isConfirmed, new Date());
     entityManager.getTransaction().begin();
@@ -1012,9 +1270,12 @@ private boolean compareGenderAndCompetition(Athlete athlete, String discipline) 
             || (athlete.getGender().equals("female") && discipline.endsWith("W"));
 }
 
-public List<Report> getReportsOfAllNotCancelledAthletesParticipatingInMeetingInDiscipline(@NotNull Meeting meeting,
-                                                                                            @NotNull String discipline) {
-    List<Report> allReportsInThisCompetitionInThisMeeting = getReportsOfAllAthletesParticipatingInMeetingInDiscipline(meeting, discipline);
+public List<Report> getReportsOfAllNotCancelledAthletesParticipatingInMeetingInDiscipline(
+                    @NotNull Meeting meeting, @NotNull String discipline) {
+    
+    List<Report> allReportsInThisCompetitionInThisMeeting =
+        getReportsOfAllAthletesParticipatingInMeetingInDiscipline(meeting, discipline);
+    
     List<Report> results = new ArrayList<>();
     for (Report report: allReportsInThisCompetitionInThisMeeting) {
         if (!report.getStatus().equals("cancelled"))
@@ -1026,27 +1287,40 @@ public List<Report> getReportsOfAllNotCancelledAthletesParticipatingInMeetingInD
 Dodanie raportu do wyżej dodanych zawodów wygląda w ten sposób:  
 ```java
 CrudCreate crudCreate = new CrudCreate(entityManager);
-Meeting meeting = (Meeting) entityManager.createQuery("FROM Meeting m WHERE m.name = :name").setParameter("name", "20. Otwarte Mistrzostwa Przemysla").getResultList().get(0);
-Athlete athlete1 = (Athlete) entityManager.createQuery("FROM Athlete a WHERE a.firstname = :firstname AND a.lastname = :lastname")
-        .setParameter("firstname", "Tomasz")
-        .setParameter("lastname", "Paja").getResultList().get(0);
-Athlete athlete2 = (Athlete) entityManager.createQuery("FROM Athlete a WHERE a.firstname = :firstname AND a.lastname = :lastname")
-        .setParameter("firstname", "Szymon")
-        .setParameter("lastname", "Paja").getResultList().get(0);
-Coach coach = (Coach) entityManager.createQuery("FROM Coach c WHERE c.firstname = :firstname AND c.lastname = :lastname")
-        .setParameter("firstname", "Piotr")
-        .setParameter("lastname", "Kowalski").getResultList().get(0);
+Meeting meeting = (Meeting) entityManager.createQuery(
+    "FROM Meeting m WHERE m.name = :name")
+    .setParameter("name", "20. Otwarte Mistrzostwa Przemysla")
+    .getResultList().get(0);
+Athlete athlete1 = (Athlete) entityManager.createQuery(
+    "FROM Athlete a WHERE a.firstname = :firstname AND a.lastname = :lastname")
+    .setParameter("firstname", "Tomasz")
+    .setParameter("lastname", "Paja")
+    .getResultList().get(0);
+Athlete athlete2 = (Athlete) entityManager.createQuery(
+    "FROM Athlete a WHERE a.firstname = :firstname AND a.lastname = :lastname")
+    .setParameter("firstname", "Szymon")
+    .setParameter("lastname", "Paja")
+    .getResultList().get(0);
+Coach coach = (Coach) entityManager.createQuery(
+    "FROM Coach c WHERE c.firstname = :firstname AND c.lastname = :lastname")
+    .setParameter("firstname", "Piotr")
+    .setParameter("lastname", "Kowalski")
+    .getResultList().get(0);
 Report report = crudCreate.createReport(meeting, athlete1, coach, "800m W", false);
 Report report1 = crudCreate.createReport(meeting, athlete1, coach, "800m M", false);
 Report report2 = crudCreate.createReport(meeting, athlete2, coach, "800m M", true);
 ```
 Wyniki:  
 
-![alt text](image-4.png)  
+![alt text](Images/image-4.png)  
 Tutaj dodatkowo wyświetliliśmy dane dotyczące zawodników, zawodów i trenera, aby mieć pewnosć, że te encje instnieją w bazie danych.  
 Po wykonaniu powyższych komend pokażemy wszystkie zgłoszenia do tych zawodów, korzystając z funkcji `getReportsOfAllAthletesParticipatingInMeeting` (będzie ona szczegółowo opisana w dalszej części raportu), aby łatwo zobaczyć wszystkie zgłoszenia.  
 ```java
-Meeting meeting = (Meeting) entityManager.createQuery("FROM Meeting m WHERE m.name = :name").setParameter("name", "20. Otwarte Mistrzostwa Przemysla").getResultList().get(0);
+Meeting meeting = (Meeting) entityManager.createQuery(
+    "FROM Meeting m WHERE m.name = :name")
+    .setParameter("name", "20. Otwarte Mistrzostwa Przemysla")
+    .getResultList().get(0);
+
 List<Report> reports = crudRead.getReportsOfAllAthletesParticipatingInMeeting(meeting);
 System.out.println(reports.size());
 for (Report report: reports)
@@ -1054,15 +1328,60 @@ for (Report report: reports)
 ```
 Wyniki:  
 
-![alt text](image-5.png)  
+![alt text](Images/image-5.png)  
 Widać, że są to tylko te trzy zgłoszenia, które były dodane wyżej (ze względu na to, że zawody są nowe nie zostało utworzone więcej zgłoszeń). Dokładnie wyglądają tak:  
 ```js
 3
-Report{id=665e60f765b83e4e58989faa, meeting=Meeting{id=665e57b765b83e5b5466a313, name='20. Otwarte Mistrzostwa Przemysla', city='Przemysl', /* Pozostałe dane zawodów */}, athlete=Athlete{id=661680852213e76670b2a784, firstname='Tomasz', lastname='Paja', /* Pozostałe dane zawodnika */}, coach=Coach{id=6616888e2213e76670b2a792, firstname='Piotr', lastname='Kowalski', /* Pozostałe dane trenera */}, discipline='800m M', status='reported', date=2024-06-04 02:33:59.786}
+Report{
+    id=665e60f765b83e4e58989faa,
+    meeting=Meeting{
+        id=665e57b765b83e5b5466a313, name='20. Otwarte Mistrzostwa Przemysla', city='Przemysl',
+        /* Pozostałe dane zawodów */
+    },
+    athlete=Athlete{
+        id=661680852213e76670b2a784, firstname='Tomasz', lastname='Paja',
+        /* Pozostałe dane zawodnika */
+    },
+    coach=Coach{
+        id=6616888e2213e76670b2a792, firstname='Piotr', lastname='Kowalski',
+        /* Pozostałe dane trenera */
+    },
+    discipline='800m M', status='reported', date=2024-06-04 02:33:59.786
+}
 
-Report{id=665e60f765b83e4e58989fab, meeting=Meeting{id=665e57b765b83e5b5466a313, name='20. Otwarte Mistrzostwa Przemysla', city='Przemysl', /* Pozostałe dane zawodów */}, athlete=Athlete{id=661680852213e76670b2a785, firstname='Szymon', lastname='Paja', /* Pozostałe dane zawodnika */}, coach=Coach{id=6616888e2213e76670b2a792, firstname='Piotr', lastname='Kowalski', /* Pozostałe dane trenera */}, discipline='800m M', status='confirmed', date=2024-06-04 02:33:59.843}
+Report{
+    id=665e60f765b83e4e58989fab,
+    meeting=Meeting{
+        id=665e57b765b83e5b5466a313, name='20. Otwarte Mistrzostwa Przemysla', city='Przemysl',
+        /* Pozostałe dane zawodów */
+    },
+    athlete=Athlete{
+        id=661680852213e76670b2a785, firstname='Szymon', lastname='Paja',
+        /* Pozostałe dane zawodnika */
+    },
+    coach=Coach{
+        id=6616888e2213e76670b2a792, firstname='Piotr', lastname='Kowalski',
+        /* Pozostałe dane trenera */
+    },
+    discipline='800m M', status='confirmed', date=2024-06-04 02:33:59.843
+}
 
-Report{id=665e60f765b83e4e58989fac, meeting=Meeting{id=665e57b765b83e5b5466a313, name='20. Otwarte Mistrzostwa Przemysla', city='Przemysl', /* Pozostałe dane zawodów */}, athlete=Athlete{id=661680852213e76670b2a785, firstname='Szymon', lastname='Paja', /* Pozostałe dane zawodnika */}, coach=Coach{id=6616888e2213e76670b2a792, firstname='Piotr', lastname='Kowalski', /* Pozostałe dane trenera */}, discipline='200m M', status='reported', date=2024-06-04 02:33:59.849}
+Report{
+    id=665e60f765b83e4e58989fac,
+    meeting=Meeting{
+        id=665e57b765b83e5b5466a313, name='20. Otwarte Mistrzostwa Przemysla', city='Przemysl',
+        /* Pozostałe dane zawodów */
+    },
+    athlete=Athlete{
+        id=661680852213e76670b2a785, firstname='Szymon', lastname='Paja',
+        /* Pozostałe dane zawodnika */
+    },
+    coach=Coach{
+        id=6616888e2213e76670b2a792, firstname='Piotr', lastname='Kowalski',
+        /* Pozostałe dane trenera */
+    },
+    discipline='200m M', status='reported', date=2024-06-04 02:33:59.849
+}
 ```
 
 5. Funkcja tworząca konkurencję - `createCompetition`  
@@ -1072,10 +1391,14 @@ public Competition createCompetition(@NotNull String discipline, int max_no_comp
     /**
      * Creates competition, if it is not already created, and returns it.
      */
-    List<Competition> competitions = entityManager.createQuery("FROM Competition", Competition.class).getResultList();
+    List<Competition> competitions = entityManager.createQuery(
+                    "FROM Competition", Competition.class)
+                    .getResultList();
+    
     for (Competition competition: competitions) {
-        if (competition.getDiscipline().equals(discipline) && competition.getMax_no_competitors() == max_no_competitors)
-            return null;
+        if (competition.getDiscipline().equals(discipline) &&
+            competition.getMax_no_competitors() == max_no_competitors)
+            return competition;
     }
     Competition competition = new Competition(discipline, max_no_competitors);
     entityManager.getTransaction().begin();
@@ -1099,7 +1422,7 @@ for (Competition competition: allCompetitions)
 ```
 Wyniki:  
 
-![alt text](image-6.png)  
+![alt text](Images/image-6.png)  
 Jest 11 rekordów, ponieważ siedem pierwszych zostało dodanych podczas tworzenia mityngu w Przemyślu. Cztery ostatnie to te, dodane teraz.
 
 
@@ -1175,26 +1498,98 @@ for (Coach competition: allCoaches)
     System.out.println(competition.toString());
 ```
 
-![alt text](image-7.png)  
+![alt text](Images/image-7.png)  
 Dokładniej:  
 ```js
-Coach{id=6616888e2213e76670b2a791, firstname='Janusz', lastname='Mazurczak', nationality='Poland', club='CWKS Resovia Rzeszow', coaching=[sprints, hurdles], athletes=[Athlete{id=665e486365b83e53b4a75047, firstname='Wieslaw', lastname='Przystojny', /* Pozostałe dane zawodnika */ }, Athlete{id=665e64e465b83e5b10fce845, firstname='Oliwer', lastname='Wdowiak',  /* Pozostałe dane zawodnika */ }]}
+Coach{
+    id=6616888e2213e76670b2a791, firstname='Janusz', lastname='Mazurczak', nationality='Poland',
+    club='CWKS Resovia Rzeszow', coaching=[sprints, hurdles],
+    athletes=[
+        Athlete{
+            id=665e486365b83e53b4a75047, firstname='Wieslaw', lastname='Przystojny',
+            /* Pozostałe dane zawodnika */
+        },
+        Athlete{
+            id=665e64e465b83e5b10fce845, firstname='Oliwer', lastname='Wdowiak', 
+            /* Pozostałe dane zawodnika */
+        }
+    ]
+}
 
-Coach{id=6616888e2213e76670b2a792, firstname='Piotr', lastname='Kowalski', nationality='Poland', club='CWKS Resovia Rzeszow', coaching=[middledistances, longdistances, steeplechase], athletes=[Athlete{id=661680852213e76670b2a784, firstname='Tomasz', lastname='Paja',  /* Pozostałe dane zawodnika */ }, Athlete{id=661680852213e76670b2a785, firstname='Szymon', lastname='Paja',  /* Pozostałe dane zawodnika */ }]}
+Coach{
+    id=6616888e2213e76670b2a792, firstname='Piotr', lastname='Kowalski', nationality='Poland',
+    club='CWKS Resovia Rzeszow', coaching=[middledistances, longdistances, steeplechase],
+    athletes=[
+        Athlete{
+            id=661680852213e76670b2a784, firstname='Tomasz', lastname='Paja',
+            /* Pozostałe dane zawodnika */
+        },
+        Athlete{
+            id=661680852213e76670b2a785, firstname='Szymon', lastname='Paja', 
+            /* Pozostałe dane zawodnika */
+        }
+    ]
+}
 
-Coach{id=6616888e2213e76670b2a793, firstname='Miroslaw', lastname='Baran', nationality='Poland', club='KKL Stal Stalowa Wola', coaching=[sprints, middledistances, longdistances], athletes=[]}
+Coach{
+    id=6616888e2213e76670b2a793, firstname='Miroslaw', lastname='Baran', nationality='Poland',
+    club='KKL Stal Stalowa Wola', coaching=[sprints, middledistances, longdistances], athletes=[]
+}
 
-Coach{id=6616888e2213e76670b2a794, firstname='Maria', lastname='Cukier', nationality='Poland', club='UKS Tempo 5 Przemysl', coaching=[sprints, middledistances, hurdles, steeplechase], athletes=[]}
+Coach{
+    id=6616888e2213e76670b2a794, firstname='Maria', lastname='Cukier', nationality='Poland',
+    club='UKS Tempo 5 Przemysl', coaching=[sprints, middledistances, hurdles, steeplechase], athletes=[]
+}
 
-Coach{id=66168f41f5eb4896aa16c9b5, firstname='Bogdan', lastname='Dudczak', nationality='Poland', club='CWKS Resovia Rzeszow', coaching=[middledistance, longdistance, racewalking], athletes=[]}
+Coach{
+    id=66168f41f5eb4896aa16c9b5, firstname='Bogdan', lastname='Dudczak', nationality='Poland',
+    club='CWKS Resovia Rzeszow', coaching=[middledistance, longdistance, racewalking], athletes=[]
+}
 
-Coach{id=665a068a46fdea9886199dce, firstname='Bob', lastname='Beamon', nationality='United States', club='International Coaching', coaching=[sprints, hurdles, jumps], athletes=[Athlete{id=6616713e2213e76670b2a77f, firstname='Noah', lastname='Lyles',  /* Pozostałe dane zawodnika */ }, Athlete{id=66165e1a2213e76670b2a778, firstname='Usain', lastname='Bolt',  /* Pozostałe dane zawodnika */ }, Athlete{id=6616713e2213e76670b2a77d, firstname='Ferdinand', lastname='Omanyala',  /* Pozostałe dane zawodnika */ }]}
+Coach{
+    id=665a068a46fdea9886199dce, firstname='Bob', lastname='Beamon', nationality='United States',
+    club='International Coaching', coaching=[sprints, hurdles, jumps],
+    athletes=[
+        Athlete{
+            id=6616713e2213e76670b2a77f, firstname='Noah', lastname='Lyles',
+            /* Pozostałe dane zawodnika */
+        },
+        Athlete{
+            id=66165e1a2213e76670b2a778, firstname='Usain', lastname='Bolt',
+            /* Pozostałe dane zawodnika */
+        },
+        Athlete{
+            id=6616713e2213e76670b2a77d, firstname='Ferdinand', lastname='Omanyala',
+            /* Pozostałe dane zawodnika */
+        }
+    ]
+}
 
-Coach{id=665a07b746fdea9886199dd8, firstname='Stanislaw', lastname='Wazki', nationality='Poland', club='KML Lubaczow', coaching=[middledistances, longdistances], athletes=[Athlete{id=6616856d2213e76670b2a78d, firstname='Michal', lastname='Bosy',  /* Pozostałe dane zawodnika */ }]}
+Coach{
+    id=665a07b746fdea9886199dd8, firstname='Stanislaw', lastname='Wazki', nationality='Poland',
+    club='KML Lubaczow', coaching=[middledistances, longdistances],
+    athletes=[
+        Athlete{
+            id=6616856d2213e76670b2a78d, firstname='Michal', lastname='Bosy',
+            /* Pozostałe dane zawodnika */
+        }
+    ]
+}
 
-Coach{id=665e04eb65b83e2d0060e29d, firstname='Szymon', lastname='Grabowski', nationality='Poland', club='CWKS Resovia Rzeszow', coaching=[football], athletes=[Athlete{id=6616713e2213e76670b2a77e, firstname='Christian', lastname='Coleman',  /* Pozostałe dane zawodnika */ }]}
+Coach{
+    id=665e04eb65b83e2d0060e29d, firstname='Szymon', lastname='Grabowski', nationality='Poland',
+    club='CWKS Resovia Rzeszow', coaching=[football], athletes=[
+        Athlete{
+            id=6616713e2213e76670b2a77e, firstname='Christian', lastname='Coleman',
+            /* Pozostałe dane zawodnika */
+        }
+    ]
+}
 
-Coach{id=665e526e65b83e48408f3c57, firstname='Tomasz', lastname='Saksa', nationality='Poland', club='AZS-AWF Gorzow Wielkopolski', coaching=[sprints, jumps], athletes=[]}
+Coach{
+    id=665e526e65b83e48408f3c57, firstname='Tomasz', lastname='Saksa', nationality='Poland',
+    club='AZS-AWF Gorzow Wielkopolski', coaching=[sprints, jumps], athletes=[]
+}
 ```
 2. Funkcje zwracające dane dotyczące zawodników należących do danego klubu lub trenujących u danego trenera:  
 ```java
@@ -1204,7 +1599,8 @@ public List<Athlete> getAthletesFromClub(@NotNull String club) {
      * Returns list of all athletes belonging to specified club.
      */
     List<Athlete> athletes = getAllAthletes();
-    List<Athlete> results = athletes.stream().filter(a -> a.getClub() != null && a.getClub().equals(club)).toList();
+    List<Athlete> results = athletes.stream().filter(a -> a.getClub() != null &&
+                                            a.getClub().equals(club)).toList();
     return results;
 }
 
@@ -1214,7 +1610,8 @@ public List<Athlete> getCoachesAthletes(@NotNull Coach coach) {
      * Returns list of all athletes who train with specified coach.
      */
     List<Athlete> athletes = getAllAthletes();
-    List<Athlete> results = athletes.stream().filter(a -> a.getCoach() != null && a.getCoach().equals(coach)).toList();
+    List<Athlete> results = athletes.stream().filter(a -> a.getCoach() != null &&
+                                            a.getCoach().equals(coach)).toList();
     return results;
 }
 ```
@@ -1226,9 +1623,11 @@ List<Athlete> athletesResovia = crudRead.getAthletesFromClub("CWKS Resovia Rzesz
 for (Athlete competition: athletesResovia)
     System.out.println(competition.toString());
 
-Coach coach2 = (Coach) entityManager.createQuery("FROM Coach c WHERE c.firstname = :firstname AND c.lastname = :lastname")
-        .setParameter("firstname", "Bob")
-        .setParameter("lastname", "Beamon").getResultList().get(0);
+Coach coach2 = (Coach) entityManager.createQuery(
+    "FROM Coach c WHERE c.firstname = :firstname AND c.lastname = :lastname")
+    .setParameter("firstname", "Bob")
+    .setParameter("lastname", "Beamon")
+    .getResultList().get(0);
 
 System.out.println("\nBob Beamon's athletes:");
 List<Athlete> athletesBobBeamon = crudRead.getCoachesAthletes(coach2);
@@ -1237,7 +1636,7 @@ for (Athlete competition: athletesBobBeamon)
 ```
 Wyniki:  
 
-![alt text](image-8.png)
+![alt text](Images/image-8.png)
 
 Widać, że wyniki są poprawne (zawodników Boba Beamona można porównać z zawodnikami w przykładzie dla funkcji `getCoaches`).  
 
@@ -1287,9 +1686,11 @@ public List<Report> getReportsOfAllAthletesParticipatingInMeetingInDiscipline(@N
     return results;
 }
 
-public List<Report> getReportsOfAllNotCancelledAthletesParticipatingInMeetingInDiscipline(@NotNull Meeting meeting,
-                                                                                            @NotNull String discipline) {
-    List<Report> allReportsInThisCompetitionInThisMeeting = getReportsOfAllAthletesParticipatingInMeetingInDiscipline(meeting, discipline);
+public List<Report> getReportsOfAllNotCancelledAthletesParticipatingInMeetingInDiscipline(
+            @NotNull Meeting meeting, @NotNull String discipline)
+{
+    List<Report> allReportsInThisCompetitionInThisMeeting =
+                getReportsOfAllAthletesParticipatingInMeetingInDiscipline(meeting, discipline);
     List<Report> results = new ArrayList<>();
     for (Report report: allReportsInThisCompetitionInThisMeeting) {
         if (report.getStatus() != null && !report.getStatus().equals("cancelled"))
@@ -1301,7 +1702,10 @@ public List<Report> getReportsOfAllNotCancelledAthletesParticipatingInMeetingInD
 Te funkcje wykorzystują siebie kolejno, z góry na dół, gdyż im dłuższa nazwa funkcji, tym bardziej zawężone wyniki zwraca. Niektóre z tych funkcji były już wykorzystywane powyżej, dlatego pokażemy wyniki tylko dla ostatniej z nich.  
 Wybierzmy wszystkie zgłoszenia, które mają status *confirmed* lub *reported* i dotyczą zawodników startujących na zawodach w Przemyślu w biegu na 800m mężczyzn:  
 ```java
-Meeting meeting = (Meeting) entityManager.createQuery("FROM Meeting m WHERE m.name = :name").setParameter("name", "20. Otwarte Mistrzostwa Przemysla").getResultList().get(0);
+Meeting meeting = (Meeting) entityManager.createQuery(
+    "FROM Meeting m WHERE m.name = :name")
+    .setParameter("name", "20. Otwarte Mistrzostwa Przemysla")
+    .getResultList().get(0);
 
 List<Report> notCancelledInPrzemysl =
         crudRead.getReportsOfAllNotCancelledAthletesParticipatingInMeetingInDiscipline(meeting, "800m M");
@@ -1310,19 +1714,54 @@ for (Report report: notCancelledInPrzemysl)
 ```
 Wyniki:  
 
-![alt text](image-9.png)  
+![alt text](Images/image-9.png)  
 ```js
-Report{id=665e60f765b83e4e58989faa, meeting=Meeting{id=665e57b765b83e5b5466a313, name='20. Otwarte Mistrzostwa Przemysla', city='Przemysl', /* Pozostałe dane mityngu */ }, athlete=Athlete{id=661680852213e76670b2a784, firstname='Tomasz', lastname='Paja', /* Pozostałe dane zawodnika */ }, coach=Coach{id=6616888e2213e76670b2a792, firstname='Piotr', lastname='Kowalski', nationality='Poland', club='CWKS Resovia Rzeszow', /* Pozostałe dane trenera */ }, discipline='800m M', status='reported', date=2024-06-04 02:33:59.786}
+Report{
+    id=665e60f765b83e4e58989faa,
+    meeting=Meeting{
+        id=665e57b765b83e5b5466a313, name='20. Otwarte Mistrzostwa Przemysla', city='Przemysl',
+        /* Pozostałe dane mityngu */
+    },
+    athlete=Athlete{
+        id=661680852213e76670b2a784, firstname='Tomasz', lastname='Paja',
+        /* Pozostałe dane zawodnika */
+    },
+    coach=Coach{
+        id=6616888e2213e76670b2a792, firstname='Piotr', lastname='Kowalski', nationality='Poland',
+        club='CWKS Resovia Rzeszow', /* Pozostałe dane trenera */
+    },
+    discipline='800m M', status='reported', date=2024-06-04 02:33:59.786
+}
 
-Report{id=665e60f765b83e4e58989fab, meeting=Meeting{id=665e57b765b83e5b5466a313, name='20. Otwarte Mistrzostwa Przemysla', city='Przemysl', /* Pozostałe dane mityngu */ }, athlete=Athlete{id=661680852213e76670b2a785, firstname='Szymon', lastname='Paja', /* Pozostałe dane zawodnika */ }, coach=Coach{id=6616888e2213e76670b2a792, firstname='Piotr', lastname='Kowalski', nationality='Poland', club='CWKS Resovia Rzeszow', /* Pozostałe dane trenera */ }, discipline='800m M', status='confirmed', date=2024-06-04 02:33:59.843}
+Report{
+    id=665e60f765b83e4e58989fab,
+    meeting=Meeting{
+        id=665e57b765b83e5b5466a313, name='20. Otwarte Mistrzostwa Przemysla', city='Przemysl',
+        /* Pozostałe dane mityngu */
+    },
+    athlete=Athlete{
+        id=661680852213e76670b2a785, firstname='Szymon', lastname='Paja',
+        /* Pozostałe dane zawodnika */
+    },
+    coach=Coach{
+        id=6616888e2213e76670b2a792, firstname='Piotr', lastname='Kowalski', nationality='Poland',
+        club='CWKS Resovia Rzeszow', /* Pozostałe dane trenera */
+    },
+    discipline='800m M', status='confirmed', date=2024-06-04 02:33:59.843
+}
 ```
 A zmieńmy Tomasz Paji na *cancelled* korzystając z funkcji z klasy `CrudUpdate`:  
 ```java
-Meeting meeting = (Meeting) entityManager.createQuery("FROM Meeting m WHERE m.name = :name").setParameter("name", "20. Otwarte Mistrzostwa Przemysla").getResultList().get(0);
+Meeting meeting = (Meeting) entityManager.createQuery(
+    "FROM Meeting m WHERE m.name = :name")
+    .setParameter("name", "20. Otwarte Mistrzostwa Przemysla")
+    .getResultList().get(0);
 
-Report report = (Report) entityManager.createQuery("FROM Report r WHERE r.athlete = :athlete AND r.meeting = :meeting")
-        .setParameter("athlete", athlete1)
-        .setParameter("meeting", meeting).getResultList().get(0);
+Report report = (Report) entityManager.createQuery(
+    "FROM Report r WHERE r.athlete = :athlete AND r.meeting = :meeting")
+    .setParameter("athlete", athlete1)
+    .setParameter("meeting", meeting)
+    .getResultList().get(0);
 
 CrudUpdate crudUpdate = new CrudUpdate(entityManager);
 crudUpdate.changeReportStatus(report, "cancelled");
@@ -1334,9 +1773,24 @@ for (Report report1: notCancelledInPrzemysl)
 ```
 Wyniki:  
 
-![alt text](image-10.png)
+![alt text](Images/image-10.png)
 ```js
-Report{id=665e60f765b83e4e58989fab, meeting=Meeting{id=665e57b765b83e5b5466a313, name='20. Otwarte Mistrzostwa Przemysla', city='Przemysl', /* Pozostałe dane mityngu */ }, athlete=Athlete{id=661680852213e76670b2a785, firstname='Szymon', lastname='Paja', /* Pozostałe dane zawodnika */ }, coach=Coach{id=6616888e2213e76670b2a792, firstname='Piotr', lastname='Kowalski', nationality='Poland', club='CWKS Resovia Rzeszow', /* Pozostałe dane trenera */ }, discipline='800m M', status='confirmed', date=2024-06-04 02:33:59.843}
+Report{
+    id=665e60f765b83e4e58989fab,
+    meeting=Meeting{
+        id=665e57b765b83e5b5466a313, name='20. Otwarte Mistrzostwa Przemysla', city='Przemysl',
+        /* Pozostałe dane mityngu */
+    },
+    athlete=Athlete{
+        id=661680852213e76670b2a785, firstname='Szymon', lastname='Paja',
+        /* Pozostałe dane zawodnika */
+    },
+    coach=Coach{
+        id=6616888e2213e76670b2a792, firstname='Piotr', lastname='Kowalski', nationality='Poland',
+        club='CWKS Resovia Rzeszow', /* Pozostałe dane trenera */
+    },
+    discipline='800m M', status='confirmed', date=2024-06-04 02:33:59.843
+}
 ```
 
 #### Operacje Update - klasa *CrudUpdate*  
@@ -1384,8 +1838,10 @@ public class CrudUpdate {
             System.out.println("The status of report is already " + report.getStatus());
             return;
         }
-        if (!newStatus.equals("reported") && !newStatus.equals("confirmed") && !newStatus.equals("cancelled")) {
-            System.out.println("Wrong status type! The available ones are: reported, confirmed, cancelled");
+        if (!newStatus.equals("reported") && !newStatus.equals("confirmed") &&
+            !newStatus.equals("cancelled")) {
+            System.out.println("Wrong status type! The available ones are: " +
+                                "reported, confirmed, cancelled");
             return;
         }
         entityManager.getTransaction().begin();
@@ -1410,25 +1866,46 @@ public class CrudUpdate {
 ```
 Funkcja:
 * `addAthleteToCoach(Athlete athlete, Coach coach)` - służy do przypisania zawodnika do trenera i trenera do zawodnika,
-  ###### Przykład
-  *Dodajmy do wcześniej utworzonego trenera Tomasza Saksy zawodnika Usaina Bolta:*
-  ```java
-  Coach saksa = (Coach) entityManager.createQuery("FROM Coach c WHERE c.firstname = :firstname AND c.lastname = :lastname")
-        .setParameter("firstname", "Tomasz")
-        .setParameter("lastname", "Saksa").getResultList().get(0);
-    Athlete bolt = (Athlete) entityManager.createQuery("FROM Athlete a WHERE a.firstname = :firstname AND a.lastname = :lastname")
+    ###### Przykład
+    *Dodajmy do wcześniej utworzonego trenera Tomasza Saksy zawodnika Usaina Bolta:*
+    ```java
+    Coach saksa = (Coach) entityManager.createQuery(
+            "FROM Coach c WHERE c.firstname = :firstname AND c.lastname = :lastname")
+            .setParameter("firstname", "Tomasz")
+            .setParameter("lastname", "Saksa")
+            .getResultList().get(0);
+
+    Athlete bolt = (Athlete) entityManager.createQuery(
+            "FROM Athlete a WHERE a.firstname = :firstname AND a.lastname = :lastname")
             .setParameter("firstname", "Usain")
-            .setParameter("lastname", "Bolt").getResultList().get(0);
+            .setParameter("lastname", "Bolt")
+            .getResultList().get(0);
 
     crudUpdate.addAthleteToCoach(bolt, saksa);
 
     System.out.println(saksa.toString());
-  ```
-  *Wyniki:*
-  ```js
-  Coach{id=665e526e65b83e48408f3c57, firstname='Tomasz', lastname='Saksa', nationality='Poland', club='AZS-AWF Gorzow Wielkopolski', coaching=[sprints, jumps], athletes=[Athlete{id=66165e1a2213e76670b2a778, firstname='Usain', lastname='Bolt', birth_date=null, gender='male', nationality='Jamaica', category='Senior', club='null', specialities=[100m, 200m, 4x100m], personalRecordsOutdoor={}, personalRecordsShortTrack={}, coach=Coach{id=665e526e65b83e48408f3c57, firstname='Tomasz', lastname='Saksa', nationality='Poland', club='AZS-AWF Gorzow Wielkopolski', coaching=[sprints, jumps]}}]}
-  ```
-  ![alt text](image-11.png)
+    ```
+    *Wyniki:*
+    ```js
+    Coach{
+        id=665e526e65b83e48408f3c57, firstname='Tomasz', lastname='Saksa', nationality='Poland',
+        club='AZS-AWF Gorzow Wielkopolski', coaching=[sprints, jumps],
+        athletes=[
+            Athlete{
+                id=66165e1a2213e76670b2a778, firstname='Usain', lastname='Bolt',
+                birthDate=Fri Dec 12 00:00:00 CET 1986, gender='male', nationality='Jamaica',
+                category='Senior', club='null', specialities=[100m, 200m, 4x100m],
+                personalRecordsOutdoor={}, personalRecordsShortTrack={},
+                coach=Coach{
+                    id=665e526e65b83e48408f3c57, firstname='Tomasz', lastname='Saksa',
+                    nationality='Poland', club='AZS-AWF Gorzow Wielkopolski',
+                    coaching=[sprints, jumps]
+                }
+            }
+        ]
+    }
+    ```
+    ![alt text](Images/image-11.png)
 
 * `changeReportStatus(Report report, String newStatus)` - służy do zmiany statusu zgłoszenia
   *Działanie funkcji zostało zaprezentowane w przykładzie dla funkcji `getReportsOfAllNotCancelledAthletesParticipatingInMeetingInDiscipline()`.*
@@ -1439,12 +1916,12 @@ Implementacja klasy *CrudDelete* prezentuje się następująco:
 ```java
 package org.example.crud;
 
-import org.example.Main;
 import org.example.model.*;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import java.util.List;
 
 public class CrudDelete {
     private final EntityManager entityManager;
@@ -1464,6 +1941,7 @@ public class CrudDelete {
             }
             entityManager.remove(foundCoach);
             entityManager.getTransaction().commit();
+            System.out.println("Coach has been deleted.");
         }
         else
             System.out.println("There is no such coach in the database!");
@@ -1477,29 +1955,53 @@ public class CrudDelete {
             entityManager.getTransaction().begin();
             entityManager.remove(foundReport);
             entityManager.getTransaction().commit();
+            System.out.println("Report has been deleted.");
         }
+        else
+            System.out.println("There is no such report in the database!");
     }
 
     @Transactional
     public void deleteMeeting(@NotNull Meeting meeting) {
         Meeting foundMeeting = entityManager.find(Meeting.class, meeting.getId());
+        List<Report> reports =
+                new CrudRead(entityManager).getReportsOfAllAthletesParticipatingInMeeting(meeting);
+        
+        if (reports.size() > 0) {
+            System.out.println("There are reports for this meeting so you cannot delete it!");
+            return;
+        }
         if (foundMeeting != null) {
             System.out.println("There is no such meeting in the database!");
             entityManager.getTransaction().begin();
             entityManager.remove(foundMeeting);
             entityManager.getTransaction().commit();
+            System.out.println("Meeting has been deleted.");
         }
+        else
+            System.out.println("There is no such meeting in the database!");
     }
 
     @Transactional
     public void deleteAthlete(@NotNull Athlete athlete) {
         Athlete foundAthlete = entityManager.find(Athlete.class, athlete.getId());
+        List<Report> reports = new CrudRead(entityManager).getAllReports();
+        for (Report report: reports) {
+            if (report.getAthlete().equals(athlete)) {
+                System.out.println("You cannot delete this athlete, " +
+                                "because it is reported for some meetings!");
+                return;
+            }
+        }
         if (foundAthlete != null) {
             System.out.println("There is no such athlete in the database!");
             entityManager.getTransaction().begin();
             entityManager.remove(foundAthlete);
             entityManager.getTransaction().commit();
+            System.out.println("Athlete has been deleted.");
         }
+        else
+            System.out.println("There is no such athlete in the database!");
     }
 
     @Transactional
@@ -1509,12 +2011,23 @@ public class CrudDelete {
             System.out.println("There is no such meeting in the database!");
             return;
         }
+        List<Report> reports = new CrudRead(entityManager)
+                .getReportsOfAllAthletesParticipatingInMeetingInDiscipline(
+                    meeting, competition.getDiscipline()
+                );
+
+        if (reports.size() > 0) {
+            System.out.println("There are reports for this competition in this meeting " +
+                                "so you cannot delete it!");
+            return;
+        }
 
         if (meeting.getCompetitions().contains(competition)) {
             entityManager.getTransaction().begin();
             meeting.removeCompetition(competition);
             entityManager.merge(meeting);
             entityManager.getTransaction().commit();
+            System.out.println("Competition has been deleted from meeting.");
         }
         else
             System.out.println("There is no such competition planned in provided meeting.");
@@ -1526,9 +2039,11 @@ Funkcja:
   ###### Przykład
   *Usuniemy trenera Tomasza Saksę z bazy danych*
   ```java
-    Coach saksa = (Coach) entityManager.createQuery("FROM Coach c WHERE c.firstname = :firstname AND c.lastname = :lastname")
+    Coach saksa = (Coach) entityManager.createQuery(
+            "FROM Coach c WHERE c.firstname = :firstname AND c.lastname = :lastname")
             .setParameter("firstname", "Tomasz")
-            .setParameter("lastname", "Saksa").getResultList().get(0);
+            .setParameter("lastname", "Saksa")
+            .getResultList().get(0);
     CrudDelete crudDelete = new CrudDelete(entityManager);
     crudDelete.deleteCoach(saksa);
     List<Coach> coachesLeft = crudRead.getAllCoaches();
@@ -1536,7 +2051,7 @@ Funkcja:
         System.out.println(c.toString());
   ```
   *Wyniki:*
-  ![alt text](image-13.png)
+  ![alt text](Images/image-13.png)
   *Pozostałe funkcje działają analogicznie i przykłady są bardzo pododne.*
 * `deleteReport(@NotNull Report report)` - służy do usuwania zgłoszenia z bazy,
 * `deleteMeeting(@NotNull Meetin meeting)` - służy do usuwania mityngu z bazy,

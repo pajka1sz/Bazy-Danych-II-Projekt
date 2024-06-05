@@ -97,6 +97,16 @@ public class Athlete {
         return result;
     }
 
+    private String personalRecordsShortTrackToString() {
+        if (personalRecordsShortTrack == null)
+            return "{}";
+        String result = "{";
+        for (String discipline: personalRecordsShortTrack.keySet())
+            result += discipline + ": " + personalRecordsShortTrack.get(discipline) + ", ";
+        result += "}";
+        return result;
+    }
+
     private String convertBirthDateToCategory(Date birthDate) {
         /**
          * @param birthDate
@@ -128,8 +138,8 @@ public class Athlete {
                 ", club='" + club + '\'' +
                 ", specialities=" + specialities +
                 ", personalRecordsOutdoor=" + this.personalRecordsOutdoorToString() +
-                ", personalRecordsShortTrack=" + personalRecordsShortTrack +
-                ", coach=" + coach.toStringWithoutAthletes() +
+                ", personalRecordsShortTrack=" + this.personalRecordsShortTrackToString() +
+                ", coach=" + (coach == null ? "{}" : coach.toStringWithoutAthletes()) +
                 '}';
     }
 }

@@ -4,6 +4,7 @@ import org.example.model.*;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
@@ -51,7 +52,19 @@ public class CrudCreate {
         /**
          * Creates meeting and returns it.
          */
+        List<Meeting> allMeetings = new CrudRead(entityManager).getAllMeetings();
+        for (Meeting meeting: allMeetings) {
+            if (meeting.getName().equals(name))
+                return meeting;
+        }
         Meeting meeting = new Meeting(name, city, date, competitions);
+        for (Competition competition : competitions) {
+            if (competition.getId() == null) {
+                entityManager.persist(competition);
+            } else {
+                entityManager.merge(competition);
+            }
+        }
         entityManager.getTransaction().begin();
         entityManager.persist(meeting);
         entityManager.getTransaction().commit();
@@ -73,6 +86,15 @@ public class CrudCreate {
             return null;
         }
         CrudRead crudRead = new CrudRead(entityManager);
+        List<Meeting> meetings = crudRead.getAllMeetings();
+        if (!meetings.contains(meeting)) {
+            System.out.println("There is no such meeting in the database!");
+            return null;
+        }
+        if (meeting.getDate().before(new Date())) {
+            System.out.println("You cannot report an athlete for this meeting, because this meeting has already taken place!");
+            return null;
+        }
         List<Competition> competitions = crudRead.getAllMeetingCompetitions(meeting);
         int max_no_participants = -1;
         for (Competition competition: competitions) {
@@ -90,6 +112,23 @@ public class CrudCreate {
             System.out.println("There are no places left for this competition!");
             return null;
         }
+        Report check = null;
+        try {
+            check = (Report) entityManager.createQuery(
+                            "FROM Report r WHERE r.meeting = :meeting AND r.athlete = :athlete AND " +
+                                    "r.coach = :coach AND r.discipline = :discipline")
+                    .setParameter("meeting", meeting)
+                    .setParameter("athlete", athlete)
+                    .setParameter("coach", coach)
+                    .setParameter("discipline", discipline)
+                    .getSingleResult();
+        } catch (NoResultException ignored) {
+
+        }
+        if (check != null) {
+            System.out.println("The report of this athlete to this competition already exists!");
+            return check;
+        }
         Report report = new Report(meeting, athlete, coach, discipline, isConfirmed, new Date());
         entityManager.getTransaction().begin();
         entityManager.persist(report);
@@ -105,7 +144,7 @@ public class CrudCreate {
         List<Competition> competitions = entityManager.createQuery("FROM Competition", Competition.class).getResultList();
         for (Competition competition: competitions) {
             if (competition.getDiscipline().equals(discipline) && competition.getMax_no_competitors() == max_no_competitors)
-                return null;
+                return competition;
         }
         Competition competition = new Competition(discipline, max_no_competitors);
         entityManager.getTransaction().begin();

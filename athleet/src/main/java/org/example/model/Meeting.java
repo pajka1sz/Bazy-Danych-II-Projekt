@@ -27,8 +27,8 @@ public class Meeting {
     private Date date;
     @Getter
     @Setter
-    @ElementCollection
-    private List<Competition> competitions;
+    @OneToMany
+    private List<Competition> competitions = new ArrayList<>();
 
     public Meeting() {
 
@@ -66,7 +66,7 @@ public class Meeting {
             return "{}";
         String result = "";
         for (Competition competition: competitions) {
-            result += "{" + competition.toString() + "}, ";
+            result += competition.toString() + ", ";
         }
         return result;
     }
