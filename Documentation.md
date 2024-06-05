@@ -269,10 +269,10 @@ Korzystamy z pliku mavenowskiego `pom.xml` i pliku konfiguracyjnego `persistence
 </persistence>
 ```
 ### Struktura projektu
-![alt text](image-16.png)
+![alt text](Images/image-16.png)
 ### Połączenie bazy MongoDB z Hibernate
 Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliśmy z plików konfiguracyjnych przedstawionych powyżej oraz z możliwości użycia bazy zapisanej w MongoDB w IntelliJ przedstawionej poniżej.
-![alt-text](imagee.png)
+![alt-text](Images/imagee.png)
 
 ### Opis klas
 1. Klasa *Athlete* - zawiera informacje na temat zawodnika. Każde pole tej klasy jest prywatne i ma automatycznie generowane gettery i settery (oprócz `Id`, które ma tylko getter), oznaczone przez
