@@ -4,3 +4,6 @@ Tematem projektu jest system o nazwie *athleet* służący do organizacji zawod�
 
 **Serwer bazy danych:** MongoDB  
 **Technologia:** Java/Hibernate
+
+---
+Dokumentacja projektu znajduje się w pliku `DokumentacjaSzymonPajaTomaszPaja.pdf`.
