@@ -66,8 +66,7 @@ public class Meeting {
             return "{}";
         String result = "";
         for (Competition competition: competitions) {
-            result += "{" + competition.toString() + "}, ";
-            //result += "{" + competition + ", ";
+            result += competition.toString() + ", ";
         }
         return result;
     }
