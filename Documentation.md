@@ -3,11 +3,12 @@
 ### Wstęp  
 System pozwala na zgłaszanie zawodników na zawody lekkoatletyczne przez trenerów. Każdy trener może zgłaszać swoich zawodników na dostępne mityngi lekkoatletyczne i potwierdzać, bądź anulować te zgłoszenia.  
 ### Struktura bazy danych  
-Baza danych jest bazą MongoDB, która składa się z czterech kolekcji:
+Baza danych jest bazą MongoDB, która składa się z pięciu kolekcji:
 * Zawodnicy
 * Trenerzy
 * Zawody
-* Zgloszenia  
+* Zgloszenia
+* Competition  
 
 Omówimy po kolei każdą z nich.  
 #### Kolekcja Zawodnicy  
@@ -75,34 +76,59 @@ Kolejne pozycje odpowiadają za:
 Odpowiada za przechowywanie informacji o zawodach - o tym kiedy się odbywają, gdzie i jakich konkurencji można się na nich spodziewać. Jeden z jej dokumentów wygląda następująco:  
 ```js
 {
-    _id: ObjectId('66169321f5eb4896aa16c9b6'),
-    name: '70. ORLEN Memorial Janusza Kusocinskiego',
-    city: 'Chorzow',
-    date: ISODate('2024-05-18T17:00:00.000Z'),
-    competitions: [
-      { discipline: '100m F', max_no_competitors: 8 },
-      { discipline: '100m M', max_no_competitors: 8 },
-      { discipline: '200m F', max_no_competitors: 8 },
-      { discipline: '200m M', max_no_competitors: 8 },
-      { discipline: '800m F', max_no_competitors: 14 },
-      { discipline: '800m M', max_no_competitors: 14 },
-      { discipline: '1500m F', max_no_competitors: 16 },
-      { discipline: '1500m M', max_no_competitors: 16 },
-      { discipline: '100mh F', max_no_competitors: 8 },
-      { discipline: '110mh M', max_no_competitors: 8 },
-      { discipline: '400mh F', max_no_competitors: 8 },
-      { discipline: '3000msc F', max_no_competitors: 16 },
-      { discipline: '3000msc M', max_no_competitors: 16 }
-    ]
-  }
+  "_id": {
+    "$oid": "66606b80bf0762225c21e468"
+  },
+  "date": {
+    "$date": "2024-06-17T22:00:00.000Z"
+  },
+  "city": "Chorzow",
+  "name": "70. ORLEN Memorial Janusza Kusocinskiego",
+  "competitions": [
+    {
+      "$oid": "66606b80bf0762225c21e45b"
+    },
+    {
+      "$oid": "66606b80bf0762225c21e45c"
+    },
+    {
+      "$oid": "66606b80bf0762225c21e45d"
+    },
+    {
+      "$oid": "66606b80bf0762225c21e45e"
+    },
+    {
+      "$oid": "66606b80bf0762225c21e460"
+    },
+    {
+      "$oid": "66606b80bf0762225c21e461"
+    },
+    {
+      "$oid": "66606b80bf0762225c21e462"
+    },
+    {
+      "$oid": "66606b80bf0762225c21e463"
+    },
+    {
+      "$oid": "66606b80bf0762225c21e464"
+    },
+    {
+      "$oid": "66606b80bf0762225c21e465"
+    },
+    {
+      "$oid": "66606b80bf0762225c21e466"
+    },
+    {
+      "$oid": "66606b80bf0762225c21e467"
+    }
+  ]
+}
 ```
 Pola oznaczają:  
 * nazwę zawodów - *name* (String)  
 * miasto, w którym się odbywają - *city* (String)  
 * datę - *date* (Date)  
-* listę konkurencji, które mają się odbyć w ramach tych zawodów - *competitions* (obiekt), która zawiera:
-    * nazwy dyscyplin - *discipline* (String)  
-    * maksymalną liczbę zawodników w danej dyscyplinie - *max_no_competitors* (Integer)  
+* listę konkurencji, które mają się odbyć w ramach tych zawodów - *competitions* (obiekt), która zawiera identyfikatory konkurencji (ObjectId) zawartych w kolekcji *Competition*  
 
 #### Kolekcja Zgloszenia  
 Jest to kolekcja przechowująca dokumenty zawierające najmniejszą liczbę danych, ale jakże ważnych - dotyczących zgłoszeń zawodników na zawody. Przykładowy dokument tej bazy wygląda następująco:  
@@ -121,6 +147,19 @@ Kolejne pola oznaczają:
 * dyscyplinę, do której zawodnik jest zgłoszony - *discipline* (String)
 * status zgłoszenia - *status* (String) - przyjmuje jedną z trzech wartości: *reported* - zgłoszony, *confirmed* - potwierdzony lub *cancelled* - anulowany.
 
+#### Kolekcja Competition  
+Przechowuje konkurencje dostępne we wszystkich wprowadzonych mityngach. Przykładowy dokument:  
+```js
+{
+  _id: ObjectId('66606b80bf0762225c21e45b'),
+  max_no_competitors: 8,
+  discipline: "100m W"
+}
+```
+Pola oznaczają:  
+* maksymalną liczbę osób, które można zgłosić do konkurencji - *max_no_competitors*
+* dyscyplinę - *discipline*  
+
 ### Klasy
 W bazie danych korzystając z technologii Hibernate stworzyliśmy kilka klas odpowiadających między innymi wyżej wymienionym kolekcjom. Są to:
 
@@ -129,7 +168,7 @@ W bazie danych korzystając z technologii Hibernate stworzyliśmy kilka klas odp
   * Coach - odpowiadająca kolekcji *Trenerzy*
   * Meeting - odpowiadająca kolekcji *Zawody*
   * Report - odpowiadająca kolekcji *Zgloszenia*
-  * Competition
+  * Competition - odpowiadająca kolekcji *Competition*  
 * zapisane w folderze *example.crud* klasy odpowiadające poszczególnym operacjom CRUD zawartym w nazwie klasy:
   * CrudCreate
   * CrudRead
@@ -380,6 +419,16 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
             this.coach = coach;
         }
 
+        private String personalRecordsShortTrackToString() {
+            if (personalRecordsShortTrack == null)
+                return "{}";
+            String result = "{";
+            for (String discipline: personalRecordsShortTrack.keySet())
+                result += discipline + ": " + personalRecordsShortTrack.get(discipline) + ", ";
+            result += "}";
+            return result;
+        }
+
         private String personalRecordsOutdoorToString() {
             if (personalRecordsOutdoor == null)
                 return "{}";
@@ -421,15 +470,16 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
                     ", club='" + club + '\'' +
                     ", specialities=" + specialities +
                     ", personalRecordsOutdoor=" + this.personalRecordsOutdoorToString() +
-                    ", personalRecordsShortTrack=" + personalRecordsShortTrack +
+                    ", personalRecordsShortTrack=" + thhis.personalRecordsShortTrackToString() +
                     ", coach=" + coach.toStringWithoutAthletes() +
                     '}';
         }
     }
     ```
-    Funkcja `personalRecordsOutdoorToString()` służy do wypisania na konsolę rekordów życiowych zawodnika osiąganych na stadionie.  
+    Funkcja `personalRecordsOutdoorToString()` służy do wypisania na konsolę rekordów życiowych zawodnika osiąganych na stadionie.
+    Funkcja `personalRecordsShortTrackToString()` służy do wypisania na konsolę rekordów życiowych zawodnika osiąganych na krótkim torze (z reguły w hali).  
     Funkcja `convertBirthDateToCategory(Date birthDate)` służy do przypisania odpowiedniej kategorii zawodnikowi bazując na jego dacie urodzenia.
-2. Klasa *Coach* - zawiera informacje na temat trenera. Każde pole tej klasy jest prywatne i ma automatycznie generowane gettery i settery (oprócz `Id`, które ma tylko getter), oznaczone przez
+3. Klasa *Coach* - zawiera informacje na temat trenera. Każde pole tej klasy jest prywatne i ma automatycznie generowane gettery i settery (oprócz `Id`, które ma tylko getter), oznaczone przez
     ```java
     @Getter
     @Setter
@@ -526,7 +576,7 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
     }
     ```
     Funkcja `addAthlete(Athlete athlete)` służy do dodawania zawodnika do listy zawodników trenowanych przez trenera.
-3. Klasa *Meeting* - zawiera informacje na temat mityngu (zawodów). Każde pole tej klasy jest prywatne i ma automatycznie generowane gettery i settery (oprócz `Id`, które ma tylko getter), oznaczone przez
+4. Klasa *Meeting* - zawiera informacje na temat mityngu (zawodów). Każde pole tej klasy jest prywatne i ma automatycznie generowane gettery i settery (oprócz `Id`, które ma tylko getter), oznaczone przez
     ```java
     @Getter
     @Setter
@@ -568,8 +618,8 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
         private Date date;
         @Getter
         @Setter
-        @ElementCollection
-        private List<Competition> competitions;
+        @OneToMany
+        private List<Competition> competitions = new ArrayList<>();
 
         public Meeting() {
 
@@ -615,7 +665,7 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
     ```
     Funkcja `addCompetition(Competition competition)` służy do dodania konkurencji do listy konkurencji odbywających się na zawodach.
     Funkcja `removeCompetition(Competition competition)` służy do usunięcia konkurencji z listy konkurencji.
-4. Klasa wbudowana *Competition* - zawiera informacje na temat konkurencji. Każde pole tej klasy jest prywatne i ma automatycznie generowane gettery i settery (oprócz `Id`, które ma tylko getter), oznaczone przez
+5. Klasa wbudowana *Competition* - zawiera informacje na temat konkurencji. Każde pole tej klasy jest prywatne i ma automatycznie generowane gettery i settery (oprócz `Id`, które ma tylko getter), oznaczone przez
     ```java
     @Getter
     @Setter
@@ -666,7 +716,7 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
         }
     }
     ```
-5. Klasa *Report* - zawiera informacje na temat zgłoszeń zawodników do zawodów. Każde pole tej klasy jest prywatne i ma automatycznie generowane gettery i settery (oprócz `Id`, które ma tylko getter), oznaczone przez
+6. Klasa *Report* - zawiera informacje na temat zgłoszeń zawodników do zawodów. Każde pole tej klasy jest prywatne i ma automatycznie generowane gettery i settery (oprócz `Id`, które ma tylko getter), oznaczone przez
     ```java
     @Getter
     @Setter
@@ -739,7 +789,7 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
         }
     }
     ```
-6. Klasa *HibernateUtil* - jest klasą pomocniczą do klasy *Main*, a jej implementacja wygląda następująco:
+7. Klasa *HibernateUtil* - jest klasą pomocniczą do klasy *Main*, a jej implementacja wygląda następująco:
    ```java
    package org.example;
 
@@ -764,7 +814,7 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
         }
     }
    ```
-7. Klasa *Main* - jest klasą wykonywalną, której implementacja zmienia się w zależności, jakie operacje chcemy przeprowadzić na bazie danych, ale z grubsza wygląda tak:
+8. Klasa *Main* - jest klasą wykonywalną, której implementacja zmienia się w zależności, jakie operacje chcemy przeprowadzić na bazie danych, ale z grubsza wygląda tak:
    ```java
    package org.example;
 
@@ -774,6 +824,7 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
 
     import javax.persistence.EntityManager;
     import javax.persistence.EntityManagerFactory;
+    import javax.persistence.NoResultException;
     import java.util.Calendar;
     import java.util.Date;
     import java.util.List;
@@ -792,14 +843,96 @@ Aby połączyć bazę zapisaną w MongoDB z technologią Hibernate skorzystaliś
 
             HibernateUtil.shutdown();
         }
+
+       private static Athlete getAthlete(EntityManager entityManager, String firstname, String lastname) {
+            Athlete athlete = null;
+            try {
+                athlete = (Athlete) entityManager.createQuery(
+                                "FROM Athlete a WHERE a.firstname = :firstname AND a.lastname = :lastname")
+                        .setParameter("firstname", firstname)
+                        .setParameter("lastname", lastname)
+                        .getSingleResult();
+            } catch (NoResultException ignored) {
+    
+            }
+            return athlete;
+        }
+    
+        private static Meeting getMeeting(EntityManager entityManager, String meetingName) {
+            Meeting meeting = null;
+            try {
+                meeting = (Meeting) entityManager.createQuery(
+                                "FROM Meeting m WHERE m.name = :name")
+                        .setParameter("name", meetingName)
+                        .getSingleResult();
+            } catch (NoResultException ignored) {
+    
+            }
+            return meeting;
+        }
+    
+        private static Report getReport(EntityManager entityManager, Meeting meeting, Athlete athlete,
+                                 Coach coach, String discipline) {
+            Report result = null;
+            try {
+                result = (Report) entityManager.createQuery(
+                                "FROM Report r WHERE r.meeting = :meeting AND r.athlete = :athlete AND " +
+                                        "r.coach = :coach AND r.discipline = :discipline")
+                        .setParameter("meeting", meeting)
+                        .setParameter("athlete", athlete)
+                        .setParameter("coach", coach)
+                        .setParameter("discipline", discipline)
+                        .getSingleResult();
+            } catch (NoResultException ignored) {
+    
+            }
+            return result;
+        }
+    
+        private static Coach getCoach(EntityManager entityManager, String firstname, String lastname) {
+            Coach coach = null;
+            try {
+                coach = (Coach) entityManager.createQuery(
+                                "FROM Coach c WHERE c.firstname = :firstname AND c.lastname = :lastname")
+                        .setParameter("firstname", firstname)
+                        .setParameter("lastname", lastname)
+                        .getSingleResult();
+            } catch (NoResultException ignored) {
+    
+            }
+            return coach;
+        }
+    
+        private static Competition getCompetition(EntityManager entityManager, String discipline, int max_no_competitors) {
+            Competition competition = null;
+            try {
+                competition = (Competition) entityManager.createQuery(
+                        "FROM Competition c WHERE c.discipline = :discipline AND c.max_no_competitors = :max_no_competitors")
+                        .setParameter("discipline", discipline)
+                        .setParameter("max_no_competitors", max_no_competitors)
+                        .getSingleResult();
+            } catch (NoResultException ignored) {
+    
+            }
+            return competition;
+        }
     }
    ```
+   Funkcje *getAthlete*, *getCoach*, *getReport*, *getMeeting* oraz *getCompetition* są funkcjami pomocniczymi pozwalającymi na łatwe znalezienie konkretnego obiektu w bazie.  
 
 ### Operacje CRUD dostępne w bazie  
 
 #### Operacje Create - klasa *CrudCreate*  
 Sama klasa wygląda następująco:  
 ```java
+import org.jetbrains.annotations.NotNull;
+
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.transaction.Transactional;
+import java.util.Date;
+import java.util.List;
+
 public class CrudCreate {
     private EntityManager entityManager;
 
@@ -911,7 +1044,19 @@ public Meeting createMeeting(@NotNull String name, @NotNull String city, @NotNul
     /**
      * Creates meeting and returns it.
      */
+    List<Meeting> allMeetings = new CrudRead(entityManager).getAllMeetings();
+    for (Meeting meeting: allMeetings) {
+        if (meeting.getName().equals(name))
+            return meeting;
+    }
     Meeting meeting = new Meeting(name, city, date, competitions);
+    for (Competition competition : competitions) {
+        if (competition.getId() == null) {
+            entityManager.persist(competition);
+        } else {
+            entityManager.merge(competition);
+        }
+    }
     entityManager.getTransaction().begin();
     entityManager.persist(meeting);
     entityManager.getTransaction().commit();
@@ -976,6 +1121,15 @@ public Report createReport(@NotNull Meeting meeting, @NotNull Athlete athlete, @
         return null;
     }
     CrudRead crudRead = new CrudRead(entityManager);
+    List<Meeting> meetings = crudRead.getAllMeetings();
+    if (!meetings.contains(meeting)) {
+        System.out.println("There is no such meeting in the database!");
+        return null;
+    }
+    if (meeting.getDate().before(new Date())) {
+        System.out.println("You cannot report an athlete for this meeting, because this meeting has already taken place!");
+        return null;
+    }
     List<Competition> competitions = crudRead.getAllMeetingCompetitions(meeting);
     int max_no_participants = 0;
     for (Competition competition: competitions) {
@@ -992,6 +1146,23 @@ public Report createReport(@NotNull Meeting meeting, @NotNull Athlete athlete, @
             >= max_no_participants) {
         System.out.println("There are no places left for this competition!");
         return null;
+    }
+    Report check = null;
+    try {
+        check = (Report) entityManager.createQuery(
+                        "FROM Report r WHERE r.meeting = :meeting AND r.athlete = :athlete AND " +
+                            "r.coach = :coach AND r.discipline = :discipline")
+                .setParameter("meeting", meeting)
+                .setParameter("athlete", athlete)
+                .setParameter("coach", coach)
+                .setParameter("discipline", discipline)
+                .getSingleResult();
+    } catch (NoResultException ignored) {
+
+    }
+    if (check != null) {
+        System.out.println("The report of this athlete to this competition already exists!");
+        return check;
     }
     Report report = new Report(meeting, athlete, coach, discipline, isConfirmed, new Date());
     entityManager.getTransaction().begin();
@@ -1075,7 +1246,7 @@ public Competition createCompetition(@NotNull String discipline, int max_no_comp
     List<Competition> competitions = entityManager.createQuery("FROM Competition", Competition.class).getResultList();
     for (Competition competition: competitions) {
         if (competition.getDiscipline().equals(discipline) && competition.getMax_no_competitors() == max_no_competitors)
-            return null;
+            return competition;
     }
     Competition competition = new Competition(discipline, max_no_competitors);
     entityManager.getTransaction().begin();
@@ -1439,12 +1610,12 @@ Implementacja klasy *CrudDelete* prezentuje się następująco:
 ```java
 package org.example.crud;
 
-import org.example.Main;
 import org.example.model.*;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import java.util.List;
 
 public class CrudDelete {
     private final EntityManager entityManager;
@@ -1464,6 +1635,7 @@ public class CrudDelete {
             }
             entityManager.remove(foundCoach);
             entityManager.getTransaction().commit();
+            System.out.println("Coach has been deleted.");
         }
         else
             System.out.println("There is no such coach in the database!");
@@ -1477,29 +1649,50 @@ public class CrudDelete {
             entityManager.getTransaction().begin();
             entityManager.remove(foundReport);
             entityManager.getTransaction().commit();
+            System.out.println("Report has been deleted.");
         }
+        else
+            System.out.println("There is no such report in the database!");
     }
 
     @Transactional
     public void deleteMeeting(@NotNull Meeting meeting) {
         Meeting foundMeeting = entityManager.find(Meeting.class, meeting.getId());
+        List<Report> reports = new CrudRead(entityManager).getReportsOfAllAthletesParticipatingInMeeting(meeting);
+        if (reports.size() > 0) {
+            System.out.println("There are reports for this meeting so you cannot delete it!");
+            return;
+        }
         if (foundMeeting != null) {
             System.out.println("There is no such meeting in the database!");
             entityManager.getTransaction().begin();
             entityManager.remove(foundMeeting);
             entityManager.getTransaction().commit();
+            System.out.println("Meeting has been deleted.");
         }
+        else
+            System.out.println("There is no such meeting in the database!");
     }
 
     @Transactional
     public void deleteAthlete(@NotNull Athlete athlete) {
         Athlete foundAthlete = entityManager.find(Athlete.class, athlete.getId());
+        List<Report> reports = new CrudRead(entityManager).getAllReports();
+        for (Report report: reports) {
+            if (report.getAthlete().equals(athlete)) {
+                System.out.println("You cannot delete this athlete, because it is reported for some meetings!");
+                return;
+            }
+        }
         if (foundAthlete != null) {
             System.out.println("There is no such athlete in the database!");
             entityManager.getTransaction().begin();
             entityManager.remove(foundAthlete);
             entityManager.getTransaction().commit();
+            System.out.println("Athlete has been deleted.");
         }
+        else
+            System.out.println("There is no such athlete in the database!");
     }
 
     @Transactional
@@ -1509,12 +1702,19 @@ public class CrudDelete {
             System.out.println("There is no such meeting in the database!");
             return;
         }
+        List<Report> reports = new CrudRead(entityManager)
+                .getReportsOfAllAthletesParticipatingInMeetingInDiscipline(meeting, competition.getDiscipline());
+        if (reports.size() > 0) {
+            System.out.println("There are reports for this competition in this meeting so you cannot delete it!");
+            return;
+        }
 
         if (meeting.getCompetitions().contains(competition)) {
             entityManager.getTransaction().begin();
             meeting.removeCompetition(competition);
             entityManager.merge(meeting);
             entityManager.getTransaction().commit();
+            System.out.println("Competition has been deleted from meeting.");
         }
         else
             System.out.println("There is no such competition planned in provided meeting.");
