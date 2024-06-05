@@ -1,7 +1,7 @@
 package org.example.crud;
 
-import org.example.Main;
 import org.example.model.*;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -14,7 +14,7 @@ public class CrudUpdate {
     }
 
     @Transactional
-    public void addAthleteToCoach(Athlete athlete, Coach coach) {
+    public void addAthleteToCoach(@NotNull Athlete athlete, @NotNull Coach coach) {
         /**
          * @param athlete
          * @param coach
@@ -27,10 +27,11 @@ public class CrudUpdate {
         entityManager.merge(coach);
         entityManager.merge(athlete);
         entityManager.getTransaction().commit();
+        System.out.println("Athlete has been successfully added to coach.");
     }
 
     @Transactional
-    public void changeReportStatus(Report report, String newStatus) {
+    public void changeReportStatus(@NotNull Report report, @NotNull String newStatus) {
         /**
          * @param report
          * @param newStatus
@@ -48,10 +49,11 @@ public class CrudUpdate {
         report.setStatus(newStatus);
         entityManager.merge(report);
         entityManager.getTransaction().commit();
+        System.out.println("Status of the report has been successfully changed.");
     }
 
     @Transactional
-    public void addCompetitionToMeeting(Meeting meeting, Competition competition) {
+    public void addCompetitionToMeeting(@NotNull Meeting meeting, @NotNull Competition competition) {
         /**
          * @param meeting
          * @param competition
@@ -61,5 +63,6 @@ public class CrudUpdate {
         meeting.addCompetition(competition);
         entityManager.merge(meeting);
         entityManager.getTransaction().commit();
+        System.out.println("Competition has been successfully added to meeting.");
     }
 }
