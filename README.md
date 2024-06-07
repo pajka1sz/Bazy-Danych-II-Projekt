@@ -6,4 +6,4 @@ Tematem projektu jest system o nazwie *athleet* służący do organizacji zawod�
 **Technologia:** Java/Hibernate
 
 ---
-Dokumentacja projektu znajduje się w pliku `DokumentacjaSzymonPajaTomaszPaja.pdf`.
+Dokumentacja projektu znajduje się [tutaj](Documentation.md).
