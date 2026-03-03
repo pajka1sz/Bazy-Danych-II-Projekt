@@ -9,6 +9,6 @@ _Athleet_ is a backend application that allows you to create athletes, coaches, 
 **Programming language:** Java  
 **ORM framework:** Hibernate
 
-Project documentation is available [here](Documentation.md).
+Project documentation (in Polish) is available [here](Documentation.md).
 
 **Authors:** Szymon Paja, Tomasz Paja
