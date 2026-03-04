@@ -1,3 +1,4 @@
+🌍 [Polski](README.md) | English
 # Project realised during _Databases_ course
 The topic of the project is a system called *athleet* used for organizing athletics competitions - in particular, for registering athletes for competitions with a limited number of places and organizing these competitions by the organizers 🎽.
 
