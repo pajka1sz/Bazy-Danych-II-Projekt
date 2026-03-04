@@ -1,4 +1,4 @@
-🇵🇱 Polski | 🇬🇧 [English](README.en.md)
+🌍 Polski | [English](README.en.md)
 #  Projekt z przedmiotu _Bazy Danych II_
 Tematem projektu jest system o nazwie *athleet* służący do organizacji zawodów lekkoatletycznych - w szczególności do zgłaszania zawodników na zawody z ograniczoną liczbą miejsc i organizację tychże zawodów przez organizatorów 🎽.
 
